@@ -1,0 +1,30 @@
+import express from 'express';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import users from './Routes/userRoutes.js';
+import stages from './Routes/stageRoute.js';
+
+const app = express();
+dotenv.config();
+
+const Port= 3000;
+const MONGO_URL="mongodb+srv://andreasimiyu7:2hnoLRl13Hc8awrj@cluster0.g5jht.mongodb.net/stage?retryWrites=true&w=majority&appName=Cluster0";
+
+app.use(express.json());
+app.use('/users', users);
+app.use('/stages', stages);
+//connect to mongoDB
+try {
+  mongoose.connect(MONGO_URL);
+  console.log('Connected to MongoDB');
+  
+} catch (error) {
+  console.log(error);
+  
+}
+
+
+
+app.listen(Port, () => {
+    console.log(`Example app listening on port ${Port}`);
+});
