@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import users from './Routes/userRoutes.js';
 import stages from './Routes/stageRoute.js';
+import cors from 'cors';
 
 const app = express();
 dotenv.config();
@@ -10,6 +11,7 @@ dotenv.config();
 const Port= 3000;
 const MONGO_URL="mongodb+srv://andreasimiyu7:2hnoLRl13Hc8awrj@cluster0.g5jht.mongodb.net/stage?retryWrites=true&w=majority&appName=Cluster0";
 
+app.use(cors());
 app.use(express.json());
 app.use('/users', users);
 app.use('/stages', stages);
