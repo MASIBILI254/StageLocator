@@ -1,0 +1,125 @@
+/* General container styling */
+.container {
+    text-align: center;
+    background:linear-gradient(rgba(8,0,58,0.7),rgba(8,0,58,0.7));
+  }
+  
+  /* Header Section */
+  .header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .heading {
+    font-size: 2rem;
+    font-weight: bold;
+    color:whitesmoke;
+
+  }
+  
+  .desc {
+    font-size: 1rem;
+    color:white;
+  }
+  
+  /* Search Section */
+  .inputs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .search {
+    padding: 0.75rem;
+    width: 60%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+  
+  .button {
+    padding: 0.75rem 1rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .button:hover {
+    background: #0056b3;
+  }
+  
+  /* Grid Section */
+  .grid {
+    display: grid;
+    gap: 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .grid h2 {
+    text-align: center;
+   color: whitesmoke;
+  }
+  
+  
+  /* Card Styling */
+  .card {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Flex Container for each stage */
+  .flex-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  /* Glassmorphism Effect */
+  .glass {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+  }
+  
+  /* Buttons inside cards */
+  .btn {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #7a56ce;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .btn:hover {
+    background: #218838;
+  }
+  

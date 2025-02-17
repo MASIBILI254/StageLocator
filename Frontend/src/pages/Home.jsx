@@ -1,43 +1,85 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import axios from "axios";
+import "./Home.css";
+import cdb from "../images/cbd.jpeg"
 
 const Home = () => {
-  const [stages, setStages] = useState([]);
-  const [destination, setDestination] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [transportData, setTransportData] = useState([]);
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-      const response = await axios.get("http://localhost:3000/stages?lng=36.7689&lat=-1.3925"); // Use actual GPS coords
-      console.log(response.data);
-      setStages(response.data);
-    } catch (err) {
-      console.error(err);
-    }
+        const response = await axios.get('http://localhost:3000/stages/getall');
+        setTransportData(response.data);
+      } catch (error) {
+        console.error('Error fetching transport data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
     
+    if (!query.trim()) {
+      setSearchResults([]);
+      return;
+    }
+
+    const results = transportData.reduce((acc, company) => {
+      const matchingRoutes = company.routes.filter(route =>
+        route.destination.toLowerCase().includes(query.toLowerCase())
+      );
+
+      if (matchingRoutes.length > 0) {
+        matchingRoutes.forEach(route => {
+          acc.push({
+            companyName: company.name,
+            ...route
+          });
+        });
+      }
+      return acc;
+    }, []);
+
+    setSearchResults(results);
   };
 
   return (
-    <div>
-      <h1>Public Transport Locator</h1>
-      <input
+    <div className="container" style={{ backgroundImage: `url(${cdb})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+   <header className="header">
+   <h1 className="heading">Public Transport Stage Locator</h1>
+   <p className="desc">next nearest stage to your destination...</p>
+   </header>
+      <div className="display">
+      <div className="inputs">
+      <input className="search"
         type="text"
         placeholder="Enter destination"
-        value={destination}
-        onChange={(e) => setDestination(e.target.value)}
+        value={searchQuery}
+        onChange={(e) => handleSearch(e.target.value)}
       />
-      <button onClick={handleSearch}>Search</button>
+      <button onClick={() => handleSearch(searchQuery)} className="button">Search</button>
 
-      <div>
-        <h2>Nearby Stages</h2>
-        {stages.map((stage) => (
-          <div key={stage._id}>
-            <h3>{stage.name}</h3>
-        <p>Location: {stage.location.coordinates[0]}, {stage.location.coordinates[1]}</p>
-        <p>destination:{stage.routes[0].destination}</p>
-        <p>price:{stage.routes[1].fare}</p>
+      </div>
+      <div className="grid">
+        
+        {searchResults.map((result, index) => (
+          <div className="card" key={index}>
+            <div className="flex-container">
+            <h3>{result.companyName}</h3>
+            </div>
+            <div className="glass">
+              <p>Destination: {result.destination}</p>
+              <p>Fare: {result.fare}</p>
+              <p>Duration: {result.duration}</p>
+              <button className="btn">Get Directions</button>
+            </div>
           </div>
         ))}
+      </div>
       </div>
     </div>
   );
