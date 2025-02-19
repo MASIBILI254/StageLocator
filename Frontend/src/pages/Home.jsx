@@ -45,6 +45,8 @@ const Home = () => {
     }, []);
 
     setSearchResults(results);
+    //clear search query
+    
   };
 
   return (
@@ -84,5 +86,4 @@ const Home = () => {
     </div>
   );
 };
-
 export default Home;

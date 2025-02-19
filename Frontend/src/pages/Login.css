@@ -1,0 +1,77 @@
+.login{
+    min-height: 100vh;
+    display: flex;
+    background-color: rgba(87, 141, 99, 0.151);
+    align-items: center;
+    justify-content: center;
+}
+.Input{
+    background-color: #c8d2f4;
+    padding: 2rem; 
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 28rem;
+}
+.Text{
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+.Error{
+    background-color: #fee2e2; 
+    border-width: 1px;
+    border-color: #f87171;
+    color: #b91c1c;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+}
+.Form{
+    margin-top: 1rem; 
+}
+.UserName{
+    display: block;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+.Labels{
+    width: 100%;
+    padding: 0.5rem;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #d1d5db;
+    border-radius: 0.375rem;
+}
+.btn1{
+    background-color: #3b82f6; 
+    width: 100%;
+    color: #ffffff;
+    padding-top: 0.5rem; /* 2 * 0.25rem */
+    padding-bottom: 0.5rem;
+    border-radius: 0.375rem;
+    margin-bottom: 1.5rem;
+    border: none;
+    margin-top: 1.5rem;
+}
+.btn1:hover{
+    background-color: #2341814c;
+}
+.Button{
+    background-color: #3b82f6; 
+    width: 100%;
+    color: #ffffff;
+    padding-top: 0.5rem; /* 2 * 0.25rem */
+    padding-bottom: 0.5rem;
+    border-radius: 0.375rem;
+    margin-bottom: 1.5rem;
+    border: none;
+
+}
+.Button:hover{
+    background-color: #2341814c;
+}
