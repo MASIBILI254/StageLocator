@@ -2,7 +2,7 @@ import React, { useState,useEffect } from "react";
 import axios from "axios";
 import "./Home.css";
 import cdb from "../images/cbd.jpeg"
-
+import Navbar from "../navbar/Navbar";
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -12,6 +12,7 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:3000/stages/getall');
+        console.log(response.data)
         setTransportData(response.data);
       } catch (error) {
         console.error('Error fetching transport data:', error);
@@ -51,8 +52,8 @@ const Home = () => {
 
   return (
     <div className="container" style={{ backgroundImage: `url(${cdb})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+      <Navbar/>
    <header className="header">
-   <h1 className="heading">Public Transport Stage Locator</h1>
    <p className="desc">next nearest stage to your destination...</p>
    </header>
       <div className="display">
