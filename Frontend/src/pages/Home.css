@@ -117,9 +117,24 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s;
+    margin-right: 1.5rem;
   }
   
   .btn:hover {
     background: #218838;
+  }
+  .btn-pay{
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #d7ceec;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-right: 1.5rem;
+  }
+  .btn-pay:hover {
+    background: #a34242;
   }
   

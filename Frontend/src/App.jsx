@@ -1,6 +1,5 @@
 import React from 'react'
 import './App.css'
-import TransportMap from './components/Transportmap'
 import Home from './pages/Home'
 import { AuthProvider } from './Context/AuthContext'
 import LoginPage from './pages/Login'

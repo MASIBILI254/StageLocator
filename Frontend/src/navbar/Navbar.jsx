@@ -1,6 +1,7 @@
 import React,{useState}from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../Context/AuthContext';
+import ma3 from "../images/ma3.jpeg"
 //import { Menu, X, Map, Search, LogOut, User } from 'lucide-react';
 import "./Navbar.css"
 
@@ -31,7 +32,8 @@ function Navbar() {
                         {/* Logo and Desktop Navigation */}
                         <div className="item">
                             <Link to="/" className="Home">
-                                <span className="heading">StageLocator</span>
+                              <img src={ma3} alt="" /> 
+                              <span className="heading">StageLocator</span>
                             </Link>
                         </div>
 
