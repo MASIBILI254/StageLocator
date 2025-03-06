@@ -4,7 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import './Transportmap.css';
 import axios from 'axios';
 
-// Replace with your actual Mapbox access token
+//Mapbox access token
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW1hZDE5IiwiYSI6ImNtN2s0ZG56MDBmNHUybHF4eHJtOHVmNXAifQ.mOBEf8SbwkpMAhrz64vIvg';
 
 const TransportMap = ({ stageName, showMap, onClose }) => {
@@ -51,7 +51,7 @@ const TransportMap = ({ stageName, showMap, onClose }) => {
 
     fetchStages();
 
-    // Get user's initial location
+    // Get user's current location
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const initialLocation = [position.coords.longitude, position.coords.latitude];
@@ -265,7 +265,7 @@ const TransportMap = ({ stageName, showMap, onClose }) => {
       
       // Get directions
       const directionsResponse = await fetch(
-        `https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`
+        `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`
       );
       
       if (!directionsResponse.ok) throw new Error('Failed to get directions');
@@ -328,7 +328,7 @@ const TransportMap = ({ stageName, showMap, onClose }) => {
             <h3>Directions to ${stage.name}</h3>
             <p>Distance: ${distance} km</p>
             <p>Trip duration: ${Math.floor(route.duration / 60)} min</p>
-            <ol>${tripInstructions}</ol>
+            <p>${tripInstructions}<p/>
           `;
         }
       }
@@ -381,18 +381,15 @@ const TransportMap = ({ stageName, showMap, onClose }) => {
           <div className="stage-list">
             <h3>Available Stages</h3>
             {stages && stages.length > 0 ? (
-              <ul>
-                {stages.map((stage) => (
-                  <li key={stage._id}>
-                    <button 
-                      onClick={() => handleSelectStage(stage)}
-                      className={`stage-button ${selectedStage && selectedStage._id === stage._id ? 'selected' : ''}`}
-                    >
-                      {stage.name} ({stage.routes?.length || 0} routes)
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              stages.map((stage, index) => (
+                <button 
+                  key={index}
+                  onClick={() => handleSelectStage(stage)}
+                  className={`stage-button ${selectedStage && selectedStage._id === stage._id ? 'selected' : ''}`}
+                >
+                  {stage.name}
+                </button>
+              ))
             ) : (
               <p>No stages available</p>
             )}
@@ -404,7 +401,6 @@ const TransportMap = ({ stageName, showMap, onClose }) => {
         </div>
       </div>
     </div>
-  );
-};
+  );};
 
 export default TransportMap;

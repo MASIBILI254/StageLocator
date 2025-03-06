@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import users from './Routes/userRoutes.js';
 import stages from './Routes/stageRoute.js';
 import auth from './Routes/AuthRoutes.js';
+import stk from './Routes/mpesaRoute.js';
 import cors from 'cors';
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use('/users', users);
 app.use('/stages', stages);
 app.use('/auth',auth)
+app.use('/stk',stk)
 //connect to mongoDB
 try {
   mongoose.connect(MONGO_URL);

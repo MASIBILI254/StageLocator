@@ -1,5 +1,4 @@
 import React from 'react'
-import './App.css'
 import Home from './pages/Home'
 import { AuthProvider } from './Context/AuthContext'
 import LoginPage from './pages/Login'

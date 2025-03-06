@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TransportMap from '../components/Transportmap';
+import Featured from "./Featured";
+import MpesaPayment from "../components/Mpesa"; // Import the MpesaPayment component
 import axios from "axios";
 import "./Home.css";
 import cdb from "../images/cbd.jpeg";
@@ -11,6 +13,13 @@ const Home = () => {
   const [transportData, setTransportData] = useState([]);
   const [showMap, setShowMap] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState('');
+  // New state for M-Pesa payment
+  const [showPayment, setShowPayment] = useState(false);
+  const [paymentDetails, setPaymentDetails] = useState({
+    amount: 0,
+    destination: '',
+    companyName: ''
+  });
   
   useEffect(() => {
     const fetchData = async () => {
@@ -61,6 +70,21 @@ const Home = () => {
     setShowMap(false);
   };
   
+  // Handle payment initiation
+  const handlePayment = (result) => {
+    setPaymentDetails({
+      amount: result.fare,
+      destination: result.destination,
+      companyName: result.companyName
+    });
+    setShowPayment(true);
+  };
+  
+  // Close payment modal
+  const closePayment = () => {
+    setShowPayment(false);
+  };
+  
   return (
     <div className="container" style={{ backgroundImage: `url(${cdb})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
       <Navbar/>
@@ -82,6 +106,7 @@ const Home = () => {
             <div className="card" key={index}>
               <div className="flex-container">
                 <h3>{result.companyName}</h3>
+                {result.img}
               </div>
               <div className="glass">
                 <p>Destination: {result.destination}</p>
@@ -93,7 +118,12 @@ const Home = () => {
                 >
                   Get Directions
                 </button>
-                <button className="btn-pay">PAY</button>
+                <button 
+                  className="btn-pay"
+                  onClick={() => handlePayment(result)}
+                >
+                  PAY
+                </button>
               </div>
             </div>
           ))}
@@ -106,6 +136,17 @@ const Home = () => {
         showMap={showMap}
         onClose={closeMap}
       />
+      
+      {/* M-Pesa Payment Component */}
+      <MpesaPayment
+        isOpen={showPayment}
+        onClose={closePayment}
+        amount={paymentDetails.amount}
+        destination={paymentDetails.destination}
+        companyName={paymentDetails.companyName}
+      />
+      
+      <Featured/>
     </div>
   );
 };
