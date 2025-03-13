@@ -11,7 +11,6 @@ const MpesaPayment = ({ isOpen, onClose, amount, destination, companyName }) => 
   if (!isOpen) return null;
 
   const validatePhoneNumber = (number) => {
-    // Basic validation for Kenyan phone numbers
     // Accepts formats like 07XXXXXXXX, 01XXXXXXXX, 254XXXXXXXXX
     const regex = /^(07|01)\d{8}$|^(254)\d{9}$/;
     return regex.test(number);
@@ -53,7 +52,7 @@ const MpesaPayment = ({ isOpen, onClose, amount, destination, companyName }) => 
         checkoutRequestID: response.data.CheckoutRequestID
       });
       
-      // You could implement polling here to check the status of the payment
+     
       
     } catch (error) {
       console.error('Payment error:', error);
