@@ -3,8 +3,8 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import users from './Routes/userRoutes.js';
 import stages from './Routes/stageRoute.js';
-import auth from './Routes/AuthRoutes.js';
-import stk from './Routes/mpesaRoute.js';
+//import auth from './Routes/AuthRoutes.js';
+//import stk from './Routes/mpesaRoute.js';
 import cors from 'cors';
 
 const app = express();
@@ -17,8 +17,13 @@ app.use(cors());
 app.use(express.json());
 app.use('/users', users);
 app.use('/stages', stages);
-app.use('/auth',auth)
-app.use('/stk',stk)
+//app.use('/auth',auth)
+//app.use('/stk',stk)
+
+app.get('/', (req, res) => {
+  res.send('Server is running and ready to receive M-Pesa callbacks!');
+});
+
 //connect to mongoDB
 try {
   mongoose.connect(MONGO_URL);

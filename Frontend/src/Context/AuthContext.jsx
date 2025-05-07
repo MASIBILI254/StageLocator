@@ -10,15 +10,22 @@ const useAuth = () => useContext(AuthContext);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Check if user is logged in
         const token = localStorage.getItem('token');
         const userData = localStorage.getItem('user');
-        
-        if (token && userData) {
-            setUser(JSON.parse(userData));
+    
+        if (token && userData && userData !== 'undefined') {
+            try {
+                const parsedUser = JSON.parse(userData);
+                setUser(parsedUser);
+            } catch (error) {
+                console.error('Failed to parse user data:', error);
+                // Optionally clean up corrupted data
+                localStorage.removeItem('user');
+            }
         }
         setLoading(false);
     }, []);
+    
 
     const login = (userData, token) => {
         setUser(userData);

@@ -1,72 +1,68 @@
-import User from '../module/userModel.js';
-import bcrypt from 'bcrypt';
-// create a new user
+import  User from '../module/userModel.js';
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-export const createUser = async (req, res) => {
-    //check if user exists
-    const userExists = await User.findOne({ email: req.body.email });
-    if  (userExists) {
-        return res.status(400).json({ message: 'User already exists' });
-    }
+
+export const register = async (req, res) => {
+    const { username, password, role } = req.body;
+
     try {
+        if (!username || !password) {
+            return res.status(400).json({ message: 'Username and password are required' });
+        }
+
+        const userRole = role && ['user', 'admin'].includes(role) ? role : 'user';
+
         const salt = bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(req.body.password, salt);
-       const user = new User({
-        ...req.body,
-        password: hash,
-    });
-    await user.save();
-    res.status(200).json("User has been created");
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-// get all users
-export const getAllUsers = async (req, res) => {
-    try {
-        const users = await User.find();
-        res.json(users);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-// get a single user
-export const getUserById = async (req, res) => {
-    //check if user exists
-    const user = await User.findById(req.params.id);
-    if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-    }
-    try {
-        const user = await User.findById(req.params.id);
-        res.json(user);
-    } catch(error){
-        res.status(500).json({ message: error.message });
-    }
-};
-// update a user
-export const updateUser = async (req, res) => {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-    }
-    try {
-        const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.json(user);
-    } catch (error){
+        const hash = bcrypt.hashSync(password, salt);
 
+    
+        const newUser = new User({
+            username,
+            email: req.body.email, 
+            password: hash,
+            role: userRole, 
+        });
+
+        
+        await newUser.save();
+
+        res.status(200).json("User has been created");
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Error registering the user" });
     }
 };
-// delete a user
-export const deleteUser = async (req,res) => {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-    }
+export const login = async (req, res) => {
+    const { username, password } = req.body;
+  
     try {
-        await User.findByIdAndDelete(req.params.id);
-        res.json({ message: 'User deleted' });
-    } catch (error){
-        res.status(500).json({ message: error.message });
+      // Find the user by username in MongoDB
+      const user = await User.findOne({ username });
+  
+      if (!user) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+  
+      // Compare the provided password with the hashed password in the database
+      const isMatch = bcrypt.compareSync(password, user.password);
+  
+      if (!isMatch) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+  
+      // Generate JWT token
+      const token = jwt.sign(
+        { id: user._id, username: user.username, role: user.role },
+        process.env.JWT_SECRET,
+        { expiresIn: '1d' }
+      );
+  
+      // Send the response with the token and user information
+      res.json({ token, role: user.role, username: user.username });
+  
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Login failed', error: err });
     }
-};
+  };

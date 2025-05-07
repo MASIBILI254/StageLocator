@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { useAuth } from '../Context/AuthContext.jsx'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -6,6 +6,7 @@ import "./Login.css"
 
 const LoginPage = () => {
     const [isLogin, setIsLogin] = useState(true);
+    const [userType, setUserType] = useState('user'); // Added user type state (user or admin)
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -23,16 +24,33 @@ const LoginPage = () => {
         setLoading(true);
 
         try {
-            const endpoint = isLogin ? '/auth/login' : '/users';
+            // Modified endpoint based on user type and login/register action
+            let endpoint;
+            if (isLogin) {
+                endpoint = userType === 'admin' ? '/auth/login' : '/auth/login';
+            } else {
+                endpoint = userType === 'admin' ? '/users' : '/users';
+            }
+
             const response = await axios.post(`http://localhost:3000${endpoint}`, 
                 isLogin ? {
                     email: formData.email,
                     password: formData.password
-                } : formData
+                } : {
+                    ...formData,
+                    role: userType // Include role in registration data
+                }
             );
 
-            login(response.data.user, response.data.token);
-            navigate('/');
+            // Pass user type to login function
+            login(response.data.user, response.data.token, userType);
+            
+            // Redirect based on user type
+            if (userType === 'admin') {
+                navigate('/admin/dashboard');
+            } else {
+                navigate('/');
+            }
         } catch (err) {
             setError(err.response?.data?.message || 'An error occurred');
         } finally {
@@ -47,12 +65,32 @@ const LoginPage = () => {
         });
     };
 
+    const handleUserTypeChange = (type) => {
+        setUserType(type);
+    };
+
     return (
         <div className="login">
             <div className="Input">
                 <h2 className="Text">
-                    {isLogin ? 'Login' : 'Register'}
+                    {isLogin ? 'Login' : 'Register'} as {userType === 'admin' ? 'Admin' : 'User'}
                 </h2>
+
+                {/* User type selector */}
+                <div className="user-type-selector">
+                    <button 
+                        className={`type-btn ${userType === 'user' ? 'active' : ''}`}
+                        onClick={() => handleUserTypeChange('user')}
+                    >
+                        User
+                    </button>
+                    <button 
+                        className={`type-btn ${userType === 'admin' ? 'active' : ''}`}
+                        onClick={() => handleUserTypeChange('admin')}
+                    >
+                        Admin
+                    </button>
+                </div>
 
                 {error && (
                     <div className="Error">
@@ -108,7 +146,7 @@ const LoginPage = () => {
                         className="btn1"
                         disabled={loading}
                     >
-                        {loading ? 'Please wait...' : (isLogin ? 'Login' : 'Register')}
+                        {loading ? 'Please wait...' : (isLogin ? `Login as ${userType}` : `Register as ${userType}`)}
                     </button>
                 </form>
 
@@ -122,6 +160,7 @@ const LoginPage = () => {
                 </div>
             </div>
         </div>
-    );};
+    );
+};
 
 export default LoginPage;
