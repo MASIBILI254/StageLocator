@@ -1,25 +1,20 @@
-import React from 'react'
-import Home from './pages/Home'
-import { AuthProvider } from './Context/AuthContext'
-import LoginPage from './pages/Login'
-import ProtectedRoute from './components/ProtectedRoute'
-import {BrowserRouter, Router, Routes,Route} from 'react-router-dom'
-function App() {
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import LoginPage from './pages/Login';
+//import UserDashboard from './pages/UserDashboard';
+//import AdminDashboard from './pages/AdminDashboard';
+import Registration from './pages/Registration'
+import { isAuthenticated, getRole } from './auth';
 
+function App() {
   return (
-    <>
-      <div>
-        <AuthProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path='/login' element={<LoginPage/>}/>
-              <Route path='/' element={<ProtectedRoute><Home/></ProtectedRoute>}/>
-            </Routes>
-          </BrowserRouter>
-        </AuthProvider>
-      </div>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Registration />} />
+        <Route path="/login" element={<LoginPage />} />
+    
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
