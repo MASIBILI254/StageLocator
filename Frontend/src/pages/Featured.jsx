@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios';
-import './Featured.css'
+import './Featured.css';
+import api from '../services/Api';
 import TransportMap from '../components/Transportmap';
 import MpesaPayment from '../components/Mpesa';
 
@@ -23,7 +23,7 @@ function Featured() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:3000/stages/getall');
+        const response = await api.get('/stages/getall');
         console.log(response.data);
         setStages(response.data);
         setLoading(false);

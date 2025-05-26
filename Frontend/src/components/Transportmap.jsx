@@ -3,8 +3,8 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './Transportmap.css';
 import axios from 'axios';
+import api from '../services/Api';
 
-//Mapbox access token
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW1hZDE5IiwiYSI6ImNtN2s0ZG56MDBmNHUybHF4eHJtOHVmNXAifQ.mOBEf8SbwkpMAhrz64vIvg';
 
 const TransportMap = ({ stageName, showMap, onClose }) => {
@@ -20,20 +20,19 @@ const TransportMap = ({ stageName, showMap, onClose }) => {
   const [selectedStage, setSelectedStage] = useState(null);
   const [isTracking, setIsTracking] = useState(false);
 
-  // Fetch stages from backend
   useEffect(() => {
     if (!showMap) return;
 
     const fetchStages = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/stages/getall');
+        const response = await api.get('/stages/getall');
         console.log('Backend data:', response.data);
         
-        // Set stages data from backend
+      
         if (response.data && response.data.length > 0) {
           setStages(response.data);
           
-          // If stageName was provided as prop, find and select that stage
+    
           if (stageName) {
             const matchedStage = response.data.find(
               stage => stage.name.toLowerCase() === stageName.toLowerCase()
@@ -364,15 +363,8 @@ const TransportMap = ({ stageName, showMap, onClose }) => {
         {error && <div className="error">{error}</div>}
         
         <div className="map-controls">
-          <button 
-            className={`tracking-button ${isTracking ? 'active' : ''}`} 
-            onClick={toggleTracking}
-          >
-            {isTracking ? 'Stop Tracking' : 'Track My Movement'}
-          </button>
-          <button className="center-button" onClick={centerOnUser}>
-            Center On Me
-          </button>
+          
+          
         </div>
         
         <div ref={mapContainer} className="mapbox-container" />

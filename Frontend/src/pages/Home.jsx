@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import TransportMap from '../components/Transportmap';
 import Featured from "./Featured";
-import MpesaPayment from "../components/Mpesa"; // Import the MpesaPayment component
+import MpesaPayment from "../components/Mpesa";
 import axios from "axios";
+import api from '../services/Api';
 import "./Home.css";
 import cdb from "../images/cbd.jpeg";
-import Navbar from "../navbar/Navbar";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -13,7 +13,7 @@ const Home = () => {
   const [transportData, setTransportData] = useState([]);
   const [showMap, setShowMap] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState('');
-  // New state for M-Pesa payment
+  
   const [showPayment, setShowPayment] = useState(false);
   const [paymentDetails, setPaymentDetails] = useState({
     amount: 0,
@@ -24,7 +24,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/stages/getall');
+        const response = await api.get('/stages/getall');
         console.log(response.data);
         setTransportData(response.data);
       } catch (error) {
@@ -87,7 +87,7 @@ const Home = () => {
   
   return (
     <div className="container" style={{ backgroundImage: `url(${cdb})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
-      <Navbar/>
+      
       <header className="header">
         <p className="desc">find the nearest stage to your destination...</p>
       </header>

@@ -12,7 +12,12 @@ dotenv.config();
 const Port= process.env.Port;
 const MONGO_URL= process.env.MONGO_URL;
 
-app.use(cors());
+// Backend (Express.js)
+app.use(cors({
+  origin: 'http://localhost:5173', // frontend origin
+  credentials: true,
+}));
+
 app.use(express.json());
 app.use('/users', users);
 app.use('/stages', stages);
