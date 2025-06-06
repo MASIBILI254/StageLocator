@@ -1,0 +1,14 @@
+/* AdminDashboard.css */
+
+.admin-dashboard {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #fdfdfd;
+}
+
+.dashboard-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  color: #333;
+}

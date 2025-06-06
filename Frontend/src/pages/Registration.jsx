@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Login.css';  // Or use Register.css if separate
+import './Login.css';  
 import api from '../services/Api';
-
+import { Link } from 'react-router-dom';
 const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('user'); // Default role
+  const [role, setRole] = useState('user');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ const Register = () => {
       });
 
       setMessage('Registration successful! Redirecting...');
-      setTimeout(() => navigate('/login'), 1500);
+      setTimeout(() => navigate('/'), 1500);
     } catch (err) {
       setMessage(err.response?.data?.message || 'Registration failed');
     }
@@ -81,6 +81,9 @@ const Register = () => {
           </select>
         </div>
         <button type="submit" className="submit-btn">Register</button>
+        <div className="redirect-message">
+        <p>Do have an account? <Link to="/" className="register-link">Login</Link></p>
+      </div>
       </form>
     </div>
   );

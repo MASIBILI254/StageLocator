@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import api from '../services/Api';
-import './Login.css'; // Import CSS file
+import './Login.css'; 
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -65,6 +65,10 @@ const Login = () => {
         </div>
         <button type="submit" className="submit-button">Login</button>
       </form>
+
+      <div className="redirect-message">
+        <p>Don't have an account? <Link to="/register" className="register-link">Register here</Link></p>
+      </div>
     </div>
   );
 };
