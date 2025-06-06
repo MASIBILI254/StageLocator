@@ -9,7 +9,7 @@ import cors from 'cors';
 const app = express();
 dotenv.config();
 
-const Port= process.env.Port;
+const Port= process.env.Port || 3000;
 const MONGO_URL= process.env.MONGO_URL;
 
 
