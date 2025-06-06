@@ -1,11 +1,9 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
-
-
 const AuthContext = createContext(null);
 const useAuth = () => useContext(AuthContext);
 
- const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -19,14 +17,12 @@ const useAuth = () => useContext(AuthContext);
                 setUser(parsedUser);
             } catch (error) {
                 console.error('Failed to parse user data:', error);
-                // Optionally clean up corrupted data
                 localStorage.removeItem('user');
             }
         }
         setLoading(false);
     }, []);
     
-
     const login = (userData, token) => {
         setUser(userData);
         localStorage.setItem('token', token);
@@ -46,4 +42,5 @@ const useAuth = () => useContext(AuthContext);
     );
 };
 
-export { AuthProvider, useAuth }
+// ✅ Correctly export as named exports
+export { AuthProvider, useAuth };

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import TransportMap from '../components/Transportmap';
 import Featured from "./Featured";
 import MpesaPayment from "../components/Mpesa";
-import axios from "axios";
+import Navbar from '../navbar/Navbar'
 import api from '../services/Api';
 import "./Home.css";
 import cdb from "../images/cbd.jpeg";
@@ -86,10 +86,10 @@ const Home = () => {
   };
   
   return (
-    <div className="container" style={{ backgroundImage: `url(${cdb})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
-      
+    <><Navbar /><div className="container" style={{ backgroundImage: `url(${cdb})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+
       <header className="header">
-        <p className="desc">find the nearest stage to your destination...</p>
+        <p className="desc">Find the nearest stage to your destination...</p>
       </header>
       <div className="display">
         <div className="inputs">
@@ -97,8 +97,7 @@ const Home = () => {
             type="text"
             placeholder="Enter destination"
             value={searchQuery}
-            onChange={(e) => handleSearch(e.target.value)}
-          />
+            onChange={(e) => handleSearch(e.target.value)} />
           <button onClick={() => handleSearch(searchQuery)} className="button">Search</button>
         </div>
         <div className="grid">
@@ -112,13 +111,13 @@ const Home = () => {
                 <p>Destination: {result.destination}</p>
                 <p>Fare: {result.fare}</p>
                 <p>Duration: {result.duration}</p>
-                <button 
-                  className="btn" 
+                <button
+                  className="btn"
                   onClick={() => handleGetDirections(result.destination)}
                 >
                   Get Directions
                 </button>
-                <button 
+                <button
                   className="btn-pay"
                   onClick={() => handlePayment(result)}
                 >
@@ -129,25 +128,23 @@ const Home = () => {
           ))}
         </div>
       </div>
-      
+
       {/* Mapbox component */}
-      <TransportMap 
+      <TransportMap
         destination={selectedDestination}
         showMap={showMap}
-        onClose={closeMap}
-      />
-      
+        onClose={closeMap} />
+
       {/* M-Pesa Payment Component */}
       <MpesaPayment
         isOpen={showPayment}
         onClose={closePayment}
         amount={paymentDetails.amount}
         destination={paymentDetails.destination}
-        companyName={paymentDetails.companyName}
-      />
-      
-      <Featured/>
-    </div>
+        companyName={paymentDetails.companyName} />
+
+      <Featured />
+    </div></>
   );
 };
 

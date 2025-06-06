@@ -1,0 +1,62 @@
+/* StageList.css */
+
+.stage-list {
+  margin-top: 20px;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.stage-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.stage-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+.stage-table th,
+.stage-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.stage-table thead {
+  background-color: #f1f1f1;
+}
+
+.no-data {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.edit-btn {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.edit-btn:hover {
+  text-decoration: underline;
+}
+
+.delete-btn {
+  color: #d9534f;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  text-decoration: underline;
+}

@@ -14,10 +14,10 @@ export const createstage = async (req,res) => {
 
 //get nearby stages
 export const getNearbystages = async (req,res) => {
-    // convert the query parameters to numbers
+   
     const lat = parseFloat(req.query.lat);
     const lng = parseFloat(req.query.lng);
-    // check if the query parameters are valid
+    
     if (isNaN(lat) || isNaN(lng)) {
         return res.status(400).json({ message: 'Invalid query parameters' });
     }

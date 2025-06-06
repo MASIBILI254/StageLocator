@@ -1,0 +1,41 @@
+/* AdminSidebar.css */
+
+.admin-sidebar {
+  width: 260px;
+  height: 100vh;
+  background-color: #1f2937; /* dark gray */
+  color: #ffffff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.admin-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 32px;
+}
+
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.nav-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #60a5fa; /* light blue */
+}
+
+.nav-link.active {
+  font-weight: 600;
+  color: #60a5fa;
+}

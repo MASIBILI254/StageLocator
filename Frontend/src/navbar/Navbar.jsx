@@ -1,6 +1,6 @@
 import React,{useState}from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../Context/AuthContext';
+import  {useAuth}  from '../Context/AuthContext';
 import ma3 from "../images/ma3.jpeg"
 //import { Menu, X, Map, Search, LogOut, User } from 'lucide-react';
 import "./Navbar.css"
