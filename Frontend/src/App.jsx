@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/Login';
 import Home from './pages/Home';
 import Registration from './pages/Registration'
-import { isAuthenticated, getRole } from './auth';
+
 import AdminDashboard from './pages/AdminBoard';
 import CreateStage from './pages/CreateStage';
 import EditStage from './pages/EditPage';
