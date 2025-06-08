@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/Api';
-import AdminSidebar from '../components/AdminSidebar';
+//import AdminSidebar from '../components/AdminSidebar';
 import StageList from '../components/StageList';
-import './AdminDashboard.css'; // Make sure this CSS file exists
+import './AdminDashBoard.css'; 
 
 const AdminDashboard = () => {
   const [stages, setStages] = useState([]);
