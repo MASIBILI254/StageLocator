@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../services/Api";
+import "./EditPage.css";
 
 const EditStage = () => {
   const { id } = useParams();
@@ -12,7 +13,7 @@ const EditStage = () => {
     decs: "",
     location: {
       type: "Point",
-      coordinates: ["", ""], // [lng, lat]
+      coordinates: ["", ""],
     },
     routes: [{ destination: "", fare: "", duration: "" }],
   });
@@ -21,9 +22,7 @@ const EditStage = () => {
     api.get(`/stages/getone/${id}`)
       .then((res) => {
         const stage = res.data;
-
         if (!stage || !stage.location || !Array.isArray(stage.location.coordinates)) {
-          console.error("Invalid stage data format", stage);
           alert("Stage data is incomplete or missing.");
           return;
         }
@@ -42,31 +41,20 @@ const EditStage = () => {
           routes: stage.routes?.length ? stage.routes : [{ destination: "", fare: "", duration: "" }],
         });
       })
-      .catch((err) => {
-        console.error("Error loading stage", err);
-        alert("Failed to load stage");
-      });
+      .catch(() => alert("Failed to load stage"));
   }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     if (name === "lng" || name === "lat") {
       const [lng, lat] = formData.location.coordinates;
       const coords = name === "lng" ? [value, lat] : [lng, value];
-
       setFormData((prevData) => ({
         ...prevData,
-        location: {
-          ...prevData.location,
-          coordinates: coords,
-        },
+        location: { ...prevData.location, coordinates: coords },
       }));
     } else {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
   };
 
@@ -74,10 +62,7 @@ const EditStage = () => {
     const { name, value } = e.target;
     const newRoutes = [...formData.routes];
     newRoutes[index][name] = value;
-    setFormData((prevData) => ({
-      ...prevData,
-      routes: newRoutes,
-    }));
+    setFormData((prevData) => ({ ...prevData, routes: newRoutes }));
   };
 
   const addRoute = () => {
@@ -89,15 +74,11 @@ const EditStage = () => {
 
   const removeRoute = (index) => {
     const updatedRoutes = formData.routes.filter((_, i) => i !== index);
-    setFormData((prevData) => ({
-      ...prevData,
-      routes: updatedRoutes,
-    }));
+    setFormData((prevData) => ({ ...prevData, routes: updatedRoutes }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const payload = {
       ...formData,
       location: {
@@ -113,90 +94,86 @@ const EditStage = () => {
       await api.put(`/stages/${id}`, payload);
       alert("Stage updated successfully!");
       navigate("/admin");
-    } catch (err) {
-      console.error("Error updating stage", err);
+    } catch {
       alert("Failed to update stage.");
     }
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-6">Edit Stage</h2>
-      <form
-        onSubmit={handleSubmit}
-        className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6 rounded shadow"
-      >
-        <div>
-          <label className="block mb-1 font-medium">Stage Name</label>
+    <div className="edit-stage-container">
+      <h2 className="edit-stage-title">Edit Stage</h2>
+      <form onSubmit={handleSubmit} className="edit-stage-form">
+        <div className="form-group">
+          <label className="form-label">Stage Name</label>
           <input
             type="text"
             name="name"
             required
             value={formData.name}
             onChange={handleChange}
-            className="w-full border border-gray-300 p-2 rounded"
+            className="form-input"
           />
         </div>
 
-        <div>
-          <label className="block mb-1 font-medium">Image URL</label>
+        <div className="form-group">
+          <label className="form-label">Image URL</label>
           <input
             type="text"
             name="img"
             value={formData.img}
             onChange={handleChange}
-            className="w-full border border-gray-300 p-2 rounded"
+            className="form-input"
           />
         </div>
 
-        <div className="md:col-span-2">
-          <label className="block mb-1 font-medium">Description</label>
+        <div className="form-group" style={{ gridColumn: "span 2" }}>
+          <label className="form-label">Description</label>
           <textarea
             name="decs"
             rows="3"
             value={formData.decs}
             onChange={handleChange}
-            className="w-full border border-gray-300 p-2 rounded"
-          ></textarea>
+            className="form-textarea"
+          />
         </div>
 
-        <div>
-          <label className="block mb-1 font-medium">Longitude</label>
+        <div className="form-group">
+          <label className="form-label">Longitude</label>
           <input
             type="number"
-            step="any"
             name="lng"
             required
+            step="any"
             value={formData.location.coordinates[0]}
             onChange={handleChange}
-            className="w-full border border-gray-300 p-2 rounded"
+            className="form-input"
           />
         </div>
 
-        <div>
-          <label className="block mb-1 font-medium">Latitude</label>
+        <div className="form-group">
+          <label className="form-label">Latitude</label>
           <input
             type="number"
-            step="any"
             name="lat"
             required
+            step="any"
             value={formData.location.coordinates[1]}
             onChange={handleChange}
-            className="w-full border border-gray-300 p-2 rounded"
+            className="form-input"
           />
         </div>
 
-        <div className="md:col-span-2 mt-4">
-          <h3 className="text-lg font-semibold mb-2">Routes</h3>
+        <div className="routes-section">
+          <h3>Routes</h3>
           {formData.routes.map((route, index) => (
-            <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+            <div key={index} className="route-row">
               <input
                 type="text"
                 name="destination"
                 placeholder="Destination"
                 value={route.destination}
                 onChange={(e) => handleRouteChange(index, e)}
-                className="border border-gray-300 p-2 rounded"
+                className="form-input"
               />
               <input
                 type="number"
@@ -204,7 +181,7 @@ const EditStage = () => {
                 placeholder="Fare"
                 value={route.fare}
                 onChange={(e) => handleRouteChange(index, e)}
-                className="border border-gray-300 p-2 rounded"
+                className="form-input"
               />
               <input
                 type="text"
@@ -212,35 +189,24 @@ const EditStage = () => {
                 placeholder="Duration"
                 value={route.duration}
                 onChange={(e) => handleRouteChange(index, e)}
-                className="border border-gray-300 p-2 rounded"
+                className="form-input"
               />
-              <div className="md:col-span-3 text-right">
+              <div className="route-actions">
                 {index > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => removeRoute(index)}
-                    className="text-red-500 hover:underline"
-                  >
+                  <button type="button" onClick={() => removeRoute(index)} className="remove-route-btn">
                     Remove
                   </button>
                 )}
               </div>
             </div>
           ))}
-          <button
-            type="button"
-            onClick={addRoute}
-            className="text-blue-600 hover:underline"
-          >
+          <button type="button" onClick={addRoute} className="add-route-btn">
             + Add Route
           </button>
         </div>
 
-        <div className="md:col-span-2 mt-6">
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
-          >
+        <div className="form-group" style={{ gridColumn: "span 2", marginTop: "1.5rem" }}>
+          <button type="submit" className="submit-btn">
             Update Stage
           </button>
         </div>

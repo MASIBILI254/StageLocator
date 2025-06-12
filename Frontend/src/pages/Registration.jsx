@@ -46,7 +46,7 @@ const Register = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            className="form-input"
+            className="input-field"
           />
         </div>
         <div className="form-group">
@@ -56,7 +56,7 @@ const Register = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="form-input"
+            className="input-field"
           />
         </div>
         <div className="form-group">
@@ -66,7 +66,7 @@ const Register = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="form-input"
+            className="input-field"
           />
         </div>
         <div className="form-group">
