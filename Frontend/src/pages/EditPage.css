@@ -1,0 +1,110 @@
+/* EditStage.css */
+.edit-stage-container {
+  padding: 1rem;
+}
+
+.edit-stage-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.edit-stage-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 768px) {
+  .edit-stage-form {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.form-input,
+.form-textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  color: black;
+}
+
+.form-textarea {
+  resize: vertical;
+}
+
+.routes-section {
+  grid-column: span 2;
+  margin-top: 1rem;
+}
+
+.route-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .route-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .route-actions {
+    grid-column: span 3;
+    text-align: right;
+  }
+}
+
+.add-route-btn,
+.remove-route-btn,
+.submit-btn {
+  cursor: pointer;
+  font-weight: bold;
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+}
+
+.add-route-btn {
+  color: #1d4ed8;
+}
+
+.add-route-btn:hover {
+  text-decoration: underline;
+}
+
+.remove-route-btn {
+  color: #dc2626;
+}
+
+.remove-route-btn:hover {
+  text-decoration: underline;
+}
+
+.submit-btn {
+  background-color: #2563eb;
+  color: white;
+  border-radius: 0.375rem;
+  padding: 0.75rem 1.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.submit-btn:hover {
+  background-color: #1e40af;
+}

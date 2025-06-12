@@ -1,4 +1,5 @@
 import Stage from "../module/stageModule.js";
+import StageSearchLog from "../module/StageSearchLog.js";
 // create a new stage
 export const createstage = async (req,res) => {
     try {
@@ -40,19 +41,43 @@ export const getNearbystages = async (req,res) => {
     }
     
 }
-// get a stage by id
+
+
 export const getStage = async (req, res) => {
     const id = req.params.id;
     try {
-        const stage = await Stage.findById(id);
+        const stage = await Stage.findByIdAndUpdate(
+            id,
+            { $inc: { searchCount: 1 } },
+            { new: true }
+        );
         if (!stage) {
             return res.status(404).json({ message: 'Stage not found' });
         }
+
+        // Log the search
+        await StageSearchLog.create({ stageId: id });
+
         res.json(stage);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
+// get the most searched stage(s)
+export const getMostSearchedStage = async (req, res) => {
+    try {
+        const mostSearched = await Stage.find()
+            .sort({ searchCount: -1 })
+            .limit(1); // or remove limit to get top N
+        res.json(mostSearched);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+
 // update a stage by id
 export const updateStage = async (req, res) => {
     const id = req.params.id;
@@ -89,3 +114,44 @@ export const getStages = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
     };
+    
+    export const getStageAnalytics = async (req, res) => {
+  try {
+    const stats = await StageSearchLog.aggregate([
+      {
+        $group: {
+          _id: "$stage",
+          totalSearches: { $sum: 1 },
+          lastSearched: { $max: "$searchedAt" },
+        },
+      },
+      {
+        $sort: { totalSearches: -1 },
+      },
+      {
+        $lookup: {
+          from: "stages",
+          localField: "_id",
+          foreignField: "_id",
+          as: "stageDetails",
+        },
+      },
+      {
+        $unwind: "$stageDetails",
+      },
+      {
+        $project: {
+          _id: 0,
+          stageId: "$stageDetails._id",
+          stageName: "$stageDetails.name",
+          totalSearches: 1,
+          lastSearched: 1,
+        },
+      },
+    ]);
+
+    res.json(stats);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

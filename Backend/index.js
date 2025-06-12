@@ -3,25 +3,23 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import users from './Routes/userRoutes.js';
 import stages from './Routes/stageRoute.js';
-
 import cors from 'cors';
 
 const app = express();
 dotenv.config();
 
-const Port= process.env.Port || 3000;
-const MONGO_URL= process.env.MONGO_URL;
-
+const Port = process.env.Port || 3000;
+const MONGO_URL = process.env.MONGO_URL;
 
 app.use(cors({
-  origin: "https://stagelocator-frontend.onrender.com", 
+  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'], 
   credentials: true,
 }));
+
 
 app.use(express.json());
 app.use('/users', users);
 app.use('/stages', stages);
-
 
 app.get('/', (req, res) => {
   res.send('Server is running and ready to receive M-Pesa callbacks!');
@@ -31,14 +29,10 @@ app.get('/', (req, res) => {
 try {
   mongoose.connect(MONGO_URL);
   console.log('Connected to MongoDB');
-  
 } catch (error) {
   console.log(error);
-  
 }
 
-
-
 app.listen(Port, () => {
-    console.log(`Example app listening on port ${Port}`);
+  console.log(`Example app listening on port ${Port}`);
 });

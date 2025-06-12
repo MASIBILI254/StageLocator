@@ -1,24 +1,22 @@
 import mongoose from "mongoose";
+
 const stageSchema = new mongoose.Schema({
-    name: { type: String, 
-        required: true 
-    },
-    img:{
-        type : String
-    },
-    location: { 
-        type: { type: String, enum: ["Point"], default: "Point" },
-        coordinates: { type: [Number], required: true } 
-    },
-    routes: [{ 
-        destination: String,
-        fare: Number,
-        duration: String 
-    }],
-    decs:{
-        type:String,
-    
-    }
+  name: { type: String, required: true },
+  img: { type: String },
+  location: {
+    type: { type: String, enum: ["Point"], default: "Point" },
+    coordinates: { type: [Number], required: true }
+  },
+  routes: [{
+    destination: String,
+    fare: Number,
+    duration: String
+  }],
+  decs: { type: String },
+  searchCount: { type: Number, default: 0 }
 });
-stageSchema.index({ location: "2dsphere" });
-export default mongoose.model("Stage", stageSchema);
+
+
+const Stage = mongoose.model("Stage", stageSchema);
+
+export default Stage;
