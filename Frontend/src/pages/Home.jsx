@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import TransportMap from '../components/Transportmap';
 import Featured from "./Featured";
 import MpesaPayment from "../components/Mpesa";
-import Navbar from '../navbar/Navbar'
+import Login from "./Login";
 import api from '../services/Api';
 import "./Home.css";
 import cdb from "../images/cbd.jpeg";
@@ -86,7 +86,9 @@ const Home = () => {
   };
   
   return (
-    <><Navbar /><div className="container" style={{ backgroundImage: `url(${cdb})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+    <>
+    <Login/>
+  <div className="container" style={{ backgroundImage: `url(${cdb})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
 
       <header className="header">
         <p className="desc">Find the nearest stage to your destination...</p>

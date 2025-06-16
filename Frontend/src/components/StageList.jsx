@@ -32,10 +32,10 @@ const StageList = () => {
   }, []);
 
   return (
-    <div className="stage-list">
+    <div className="stage-list-container">
       <AdminSidebar/>
-      <h2 className="stage-title">All Registered Stages</h2>
-      <table className="stage-table">
+      <h2 className="stage-list-title">All Registered Stages</h2>
+      <table className="stage-list-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -46,7 +46,7 @@ const StageList = () => {
         <tbody>
           {stages.length === 0 ? (
             <tr>
-              <td colSpan="3" className="no-data">No stages found.</td>
+              <td colSpan="3" className="stage-list-no-data">No stages found.</td>
             </tr>
           ) : (
             stages.map((stage) => {
@@ -56,9 +56,9 @@ const StageList = () => {
                 <tr key={stage._id}>
                   <td>{stage.name}</td>
                   <td>{destinations}</td>
-                  <td className="actions">
-                    <Link to={`/admin/stages/edit/${stage._id}`} className="edit-btn">Edit</Link>
-                    <button onClick={() => handleDelete(stage._id)} className="delete-btn">Delete</button>
+                  <td className="stage-list-actions">
+                    <Link to={`/admin/stages/edit/${stage._id}`} className="stage-list-edit-btn">Edit</Link>
+                    <button onClick={() => handleDelete(stage._id)} className="stage-list-delete-btn">Delete</button>
                   </td>
                 </tr>
               );
