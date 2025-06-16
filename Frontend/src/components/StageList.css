@@ -1,62 +1,112 @@
 /* StageList.css */
 
-.stage-list {
-  margin-top: 20px;
-  padding: 10px;
+.stage-list-container {
+  margin-left: 260px; /* Match sidebar width */
+  padding: 20px;
   font-family: Arial, sans-serif;
+  min-height: 100vh;
 }
 
-.stage-title {
+.stage-list-title {
   font-size: 22px;
   font-weight: bold;
   margin-bottom: 16px;
-  color: #333;
+  color: whitesmoke;
 }
 
-.stage-table {
+.stage-list-table {
   width: 100%;
   border-collapse: collapse;
-  border: 1px solid #ddd;
+  border: 1px solid #374151;
+  color: whitesmoke;
+  background-color: #2d3748;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.stage-table th,
-.stage-table td {
+.stage-list-table th,
+.stage-list-table td {
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid #374151;
   text-align: left;
 }
 
-.stage-table thead {
-  background-color: #f1f1f1;
+.stage-list-table thead {
+  background-color: #374151;
 }
 
-.no-data {
+.stage-list-no-data {
   text-align: center;
-  color: #888;
+  color: #9ca3af;
   font-style: italic;
 }
 
-.actions {
+.stage-list-actions {
   display: flex;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
-.edit-btn {
-  color: #007bff;
+.stage-list-edit-btn {
+  color: #60a5fa;
   text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  background-color: #1e40af;
+  transition: background-color 0.3s ease;
 }
 
-.edit-btn:hover {
-  text-decoration: underline;
+.stage-list-edit-btn:hover {
+  background-color: #2563eb;
 }
 
-.delete-btn {
-  color: #d9534f;
-  background: none;
+.stage-list-delete-btn {
+  color: #ef4444;
+  background-color: #7f1d1d;
   border: none;
   cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
-.delete-btn:hover {
-  text-decoration: underline;
+.stage-list-delete-btn:hover {
+  background-color: #b91c1c;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  .stage-list-container {
+    margin-left: 0;
+    padding: 10px;
+  }
+
+  .stage-list-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .stage-list-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .stage-list-edit-btn,
+  .stage-list-delete-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .stage-list-title {
+    font-size: 18px;
+  }
+
+  .stage-list-table th,
+  .stage-list-table td {
+    padding: 8px;
+    font-size: 14px;
+  }
 }
