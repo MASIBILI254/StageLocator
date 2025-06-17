@@ -2,7 +2,8 @@ import { NavLink } from "react-router-dom";
 import './AdminSidebar.css';
 import { MdDashboard } from "react-icons/md";
 import { MdAddLocationAlt } from "react-icons/md";
-import { SiVirustotal } from "react-icons/si";
+import { MdAlignHorizontalLeft } from "react-icons/md";
+import { MdAnalytics } from "react-icons/md";
 const AdminSidebar = () => {
   return (
     <aside className="admin-sidebar">
@@ -22,7 +23,7 @@ const AdminSidebar = () => {
             isActive ? "nav-link active" : "nav-link"
           }
         >
-         <SiVirustotal/> All Stages
+         <MdAlignHorizontalLeft/> All Stages
         </NavLink>
         <NavLink
           to="/admin/stages/create"
@@ -31,6 +32,14 @@ const AdminSidebar = () => {
           }
         >
          <MdAddLocationAlt/> Add New Stage
+        </NavLink>
+        <NavLink
+          to="/admin/analytics"
+          className={({ isActive }) =>
+            isActive ? "nav-link active" : "nav-link"
+          }
+        >
+        <MdAnalytics/>  Analytics
         </NavLink>
       </nav>
     </aside>

@@ -6,6 +6,7 @@ import AdminDashboard from './pages/AdminBoard';
 import CreateStage from './pages/CreateStage';
 import EditStage from './pages/EditPage';
 import StageList from './components/StageList';
+import StageAnalytics from './components/StageAnalytics';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/admin/stages/create" element={<CreateStage />} />
         <Route path="/admin/stages/edit/:id" element={<EditStage />} />
         <Route path='/admin/stages' element={<StageList />} />
+        <Route path='/admin/analytics' element={<StageAnalytics />} />
       </Routes>
     </BrowserRouter>
   );
