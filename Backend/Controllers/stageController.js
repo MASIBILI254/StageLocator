@@ -56,10 +56,12 @@ export const getStage = async (req, res) => {
         }
 
         // Log the search
-        await StageSearchLog.create({ stageId: id });
+        const searchLog = await StageSearchLog.create({ stageId: id });
+        console.log('Search logged:', searchLog);
 
         res.json(stage);
     } catch (error) {
+        console.error('Error in getStage:', error);
         res.status(500).json({ message: error.message });
     }
 };
@@ -120,7 +122,7 @@ export const getStages = async (req, res) => {
     const stats = await StageSearchLog.aggregate([
       {
         $group: {
-          _id: "$stage",
+          _id: "$stageId",
           totalSearches: { $sum: 1 },
           lastSearched: { $max: "$searchedAt" },
         },
@@ -142,16 +144,16 @@ export const getStages = async (req, res) => {
       {
         $project: {
           _id: 0,
-          stageId: "$stageDetails._id",
+          stageId: "$_id",
           stageName: "$stageDetails.name",
           totalSearches: 1,
           lastSearched: 1,
         },
       },
-    ]);
-
-    res.json(stats);
+    ]);  
+    res.stats(200)
   } catch (error) {
+    console.error('Analytics error:', error);
     res.status(500).json({ message: error.message });
   }
 };

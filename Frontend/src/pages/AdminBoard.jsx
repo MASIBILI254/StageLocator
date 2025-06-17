@@ -5,7 +5,6 @@ import './AdminDashBoard.css';
 
 const AdminDashboard = () => {
   const [stages, setStages] = useState([]);
-  const [analytics, setAnalytics] = useState(null);
   const [mostSearched, setMostSearched] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -15,14 +14,12 @@ const AdminDashboard = () => {
       try {
         setLoading(true);
 
-        const [stagesRes, analyticsRes, searchedRes] = await Promise.all([
+        const [stagesRes, searchedRes] = await Promise.all([
           api.get('/stages/getall'),
-          api.get('/stages/analytics'),
           api.get('/stages/most-searched'),
         ]);
 
         setStages(stagesRes.data);
-        setAnalytics(analyticsRes.data);
         setMostSearched(searchedRes.data);
         setLoading(false);
       } catch (error) {
