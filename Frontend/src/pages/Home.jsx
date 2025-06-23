@@ -81,7 +81,7 @@ const Home = () => {
     setShowMap(false);
   };
   
-  // Handle payment initiation
+  
   const handlePayment = (result) => {
     setPaymentDetails({
       amount: result.fare,
@@ -91,7 +91,7 @@ const Home = () => {
     setShowPayment(true);
   };
   
-  // Close payment modal
+
   const closePayment = () => {
     setShowPayment(false);
   };
