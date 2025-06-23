@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import TransportMap from '../components/Transportmap';
 import Featured from "./Featured";
 import MpesaPayment from "../components/Mpesa";
-import Login from "./Login";
 import api from '../services/Api';
 import "./Home.css";
 import cdb from "../images/cbd.jpeg";
@@ -99,7 +98,6 @@ const Home = () => {
   
   return (
     <>
-    <Login/>
   <div className="container" style={{ backgroundImage: `url(${cdb})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
 
       <header className="header">
@@ -120,10 +118,11 @@ const Home = () => {
               <div className="flex-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
                 <h3 style={{ margin: 0 }}>{result.companyName}</h3>
                 {result.img && (
-                  <img src={result.img} alt={result.companyName} style={{width: '800px', height: '800px', borderRadius: '10px', objectFit: 'cover'}} />
+                  <img src={result.img} alt={result.companyName} style={{width: '400px',marginBottom:'0px', height: '400px', borderRadius: '10px', objectFit: 'cover'}} />
                 )}
               </div>
-              <div className="glass">
+        <div className="center-container">
+                 <div className="glass">
                 <p>Destination: {result.destination}</p>
                 <p>Fare: {result.fare}</p>
                 <p>Duration: {result.duration}</p>
@@ -141,6 +140,8 @@ const Home = () => {
                 </button>
               </div>
             </div>
+        </div>
+             
           ))}
         </div>
       </div>
