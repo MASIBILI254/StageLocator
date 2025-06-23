@@ -2,6 +2,7 @@ import { useState } from "react";
 import api from "../services/Api";
 import { useNavigate } from "react-router-dom";
 import './CreateStage.css';
+import ImageUpload from '../components/ImageUpload';
 
 const CreateStage = () => {
   const [formData, setFormData] = useState({
@@ -76,6 +77,10 @@ const CreateStage = () => {
     }
   };
 
+  const handleImageUpload = (images) => {
+    setFormData({ ...formData, img: images[0]?.url || '' });
+  };
+
   return (
     <div className="add-page">
       <h2 className="heading">Add New Stage</h2>
@@ -92,13 +97,8 @@ const CreateStage = () => {
         </div>
 
         <div className="form-group">
-          <label>Image URL</label>
-          <input
-            type="text"
-            name="img"
-            value={formData.img}
-            onChange={handleChange}
-          />
+          <label>Image Upload</label>
+          <ImageUpload onImageUpload={handleImageUpload} />
         </div>
 
         <div className="form-group full-width">

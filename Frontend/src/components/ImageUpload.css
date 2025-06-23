@@ -1,0 +1,121 @@
+.image-upload-container {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fafbfc;
+}
+
+.upload-section {
+  margin-bottom: 1rem;
+}
+
+.dropzone {
+  border: 2px dashed #90caf9;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  background: #f5faff;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.dropzone.drag-active {
+  border-color: #1976d2;
+  background: #e3f2fd;
+}
+.dropzone.uploading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+.upload-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+.upload-text {
+  font-size: 1.1rem;
+  color: #1976d2;
+}
+.upload-hint {
+  font-size: 0.9rem;
+  color: #888;
+}
+.upload-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.spinner {
+  border: 4px solid #e0e0e0;
+  border-top: 4px solid #1976d2;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 0.5rem;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.error-message {
+  color: #d32f2f;
+  background: #ffebee;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+.uploaded-images {
+  margin-top: 1rem;
+}
+.image-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.image-item {
+  position: relative;
+  width: 100px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  background: #fff;
+}
+.image-item img {
+  width: 100%;
+  height: 60px;
+  object-fit: cover;
+  display: block;
+}
+.image-overlay {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+.remove-btn {
+  background: #d32f2f;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: background 0.2s;
+}
+.remove-btn:hover {
+  background: #b71c1c;
+}
+.image-info {
+  padding: 0.3rem 0.5rem;
+  font-size: 0.85rem;
+  color: #333;
+}
+.image-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.image-size {
+  color: #888;
+} 

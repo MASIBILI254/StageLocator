@@ -34,7 +34,7 @@ const Home = () => {
     fetchData();
   }, []);
   
-  const handleSearch = (query) => {
+  const handleSearch = async (query) => {
     setSearchQuery(query);
     
     if (!query.trim()) {
@@ -51,6 +51,7 @@ const Home = () => {
         matchingRoutes.forEach(route => {
           acc.push({
             companyName: company.name,
+            img: company.img,
             ...route
           });
         });
@@ -59,6 +60,17 @@ const Home = () => {
     }, []);
     
     setSearchResults(results);
+
+    // Increment searchCount for each unique companyName (stage name) in results
+    const uniqueStageNames = [...new Set(results.map(r => r.companyName))];
+    uniqueStageNames.forEach(async (stageName) => {
+      try {
+        await api.post('/stages/increment-searchcount', { stageName });
+      } catch (err) {
+        // Optionally handle error
+        console.error('Failed to increment search count for', stageName, err);
+      }
+    });
   };
   
   const handleGetDirections = (destination) => {
@@ -105,9 +117,11 @@ const Home = () => {
         <div className="grid">
           {searchResults.map((result, index) => (
             <div className="card" key={index}>
-              <div className="flex-container">
-                <h3>{result.companyName}</h3>
-                {result.img}
+              <div className="flex-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                <h3 style={{ margin: 0 }}>{result.companyName}</h3>
+                {result.img && (
+                  <img src={result.img} alt={result.companyName} style={{width: '800px', height: '800px', borderRadius: '10px', objectFit: 'cover'}} />
+                )}
               </div>
               <div className="glass">
                 <p>Destination: {result.destination}</p>

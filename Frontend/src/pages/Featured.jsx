@@ -51,9 +51,18 @@ function Featured() {
       </div>
     );
   }
-  const handleGetDirections = (destination) => {
+  const handleGetDirections = async (destination) => {
     setSelectedDestination(destination);
     setShowMap(true);
+    // Find the stage name for this destination
+    const stage = stages.find(s => s.routes.some(r => r.destination === destination));
+    if (stage) {
+      try {
+        await api.post('/stages/increment-searchcount', { stageName: stage.name });
+      } catch (err) {
+        console.error('Failed to increment search count for', stage.name, err);
+      }
+    }
   };
   
   const closeMap = () => {
@@ -89,8 +98,11 @@ function Featured() {
                 key={stage._id} 
                 className="content"
               >
-                <div className="padding">
-                  <h2>{stage.name || 'Unnamed Stage'}</h2>
+                <div className="padding" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+                  {stage.img && (
+                    <img src={stage.img} alt={stage.name} style={{width: '400px', height: '400px', borderRadius: '12px', objectFit: 'cover'}} />
+                  )}
+                  <h2 style={{ margin: 0 }}>{stage.name || 'Unnamed Stage'}</h2>
                  
                   {stage.routes && stage.routes.length > 0 && (
                     <div className="routes">

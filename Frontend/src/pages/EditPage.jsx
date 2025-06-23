@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../services/Api";
+import ImageUpload from "../components/ImageUpload";
 import "./EditPage.css";
 
 const EditStage = () => {
@@ -17,6 +18,8 @@ const EditStage = () => {
     },
     routes: [{ destination: "", fare: "", duration: "" }],
   });
+
+  const [existingImage, setExistingImage] = useState(null);
 
   useEffect(() => {
     api.get(`/stages/getone/${id}`)
@@ -40,6 +43,16 @@ const EditStage = () => {
           },
           routes: stage.routes?.length ? stage.routes : [{ destination: "", fare: "", duration: "" }],
         });
+
+        // Set existing image if available
+        if (stage.img) {
+          setExistingImage({
+            id: 'existing',
+            url: stage.img,
+            name: 'Current Image',
+            size: 0
+          });
+        }
       })
       .catch(() => alert("Failed to load stage"));
   }, [id]);
@@ -56,6 +69,11 @@ const EditStage = () => {
     } else {
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
+  };
+
+  const handleImageUpload = (images) => {
+    // Set the first uploaded image URL to formData.img
+    setFormData(prevData => ({ ...prevData, img: images[0]?.url || '' }));
   };
 
   const handleRouteChange = (index, e) => {
@@ -116,14 +134,8 @@ const EditStage = () => {
         </div>
 
         <div className="form-group">
-          <label className="form-label">Image URL</label>
-          <input
-            type="text"
-            name="img"
-            value={formData.img}
-            onChange={handleChange}
-            className="form-input"
-          />
+          <label className="form-label">Image</label>
+          <ImageUpload onImageUpload={handleImageUpload} initialImage={existingImage} />
         </div>
 
         <div className="form-group" style={{ gridColumn: "span 2" }}>

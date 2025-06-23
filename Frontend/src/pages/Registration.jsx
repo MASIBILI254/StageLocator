@@ -80,7 +80,7 @@ const Register = () => {
             <option value="admin">Admin</option>
           </select>
         </div>
-        <button type="submit" className="submit-btn">Register</button>
+        <button type="submit" className="submit-btn1">Register</button>
         <div className="redirect-message">
         <p>Do have an account? <Link to="/" className="register-link">Login</Link></p>
       </div>

@@ -151,9 +151,32 @@ export const getStages = async (req, res) => {
         },
       },
     ]);  
-    res.stats(200)
+    res.status(200).json(stats)
   } catch (error) {
     console.error('Analytics error:', error);
     res.status(500).json({ message: error.message });
   }
+};
+
+// Increment searchCount by stage name
+export const incrementSearchCountByStageName = async (req, res) => {
+    const { stageName } = req.body;
+    if (!stageName) {
+        return res.status(400).json({ message: 'Stage name is required' });
+    }
+    try {
+        const stage = await Stage.findOneAndUpdate(
+            { name: stageName },
+            { $inc: { searchCount: 1 } },
+            { new: true }
+        );
+        if (!stage) {
+            return res.status(404).json({ message: 'Stage not found' });
+        }
+        // Optionally log the search
+        await StageSearchLog.create({ stageId: stage._id });
+        res.json({ message: 'Search count updated', stage });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
