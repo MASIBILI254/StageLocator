@@ -86,13 +86,13 @@ function Featured() {
 
   return (
     <div>
-      <div className="Container">
+      <div className="featured-container">
         <h2 className="text">Featured Stages</h2>
         
         {stages.length === 0 ? (
-          <p className="heading">No stages available at the moment.</p>
+          <p className="featured-heading">No stages available at the moment.</p>
         ) : (
-          <div className="grid">
+          <div className="featured-grid">
             {stages.map((stage) => (
               <div 
                 key={stage._id} 

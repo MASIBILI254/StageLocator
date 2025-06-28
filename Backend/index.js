@@ -4,22 +4,27 @@ import mongoose from 'mongoose';
 import users from './Routes/userRoutes.js';
 import stages from './Routes/stageRoute.js';
 import cors from 'cors';
+import reviews from './Routes/reviewRoutes.js';
+import incidentReports from './Routes/incidentReportRoutes.js';
 
 const app = express();
 dotenv.config();
 
-const Port = process.env.Port || 3000;
+const Port = process.env.PORT || 5000;
 const MONGO_URL = process.env.MONGO_URL;
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'], 
-  credentials: true,
+  origin: 'http://localhost:5173',
+  credentials: true
 }));
+
 
 
 app.use(express.json());
 app.use('/users', users);
 app.use('/stages', stages);
+app.use('/reviews', reviews);
+app.use('/incident-reports', incidentReports);
 
 app.get('/', (req, res) => {
   res.send('Server is running and ready to receive M-Pesa callbacks!');

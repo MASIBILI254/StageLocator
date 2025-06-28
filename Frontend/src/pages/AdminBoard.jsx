@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../services/Api';
 import StageList from '../components/StageList';
 import './AdminDashBoard.css';
+import Navbar from '../navbar/Navbar';
 
 const AdminDashboard = () => {
   const [stages, setStages] = useState([]);
@@ -32,6 +33,7 @@ const AdminDashboard = () => {
   }, []);
 
   return (
+    <><Navbar />
     <div className="admin-dashboard">
       <h2 className="dashboard-title">Dashboard</h2>
 
@@ -54,9 +56,10 @@ const AdminDashboard = () => {
 
           {/* Stage Table */}
           <StageList stages={stages} />
+      
         </>
       )}
-    </div>
+    </div></>
   );
 };
 

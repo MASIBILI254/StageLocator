@@ -1,19 +1,77 @@
 .admin-dashboard {
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  color: whitesmoke;
-  border-color: none;
-   
- 
+  max-width: 1200px;
+  margin: 0rem auto;
+  padding: 2rem;
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  color: #f8fafc;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
+/* Page Title */
 .dashboard-title {
-  font-size: 24px;
+  font-size: 2rem;
   font-weight: bold;
-  margin-bottom: 24px;
-  color: whitesmoke;
-  border:none;
+  color: #efefef;
+  text-align: center;
 }
 
+/* Widget container */
+.dashboard-widgets {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-left: 15rem;
+}
 
+/* Individual widget */
+.widget-card {
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
 
+.widget-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #38bdf8;
+}
+
+/* List of most searched */
+.widget-card ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.widget-card li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.95rem;
+}
+
+.widget-card li:last-child {
+  border-bottom: none;
+}
+
+/* Loading State */
+.admin-dashboard p {
+  text-align: center;
+  font-size: 1rem;
+  color: #cbd5e1;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .admin-dashboard {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .dashboard-title {
+    font-size: 1.5rem;
+  }
+
+  .widget-card {
+    padding: 1rem;
+  }
+}

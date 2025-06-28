@@ -2,7 +2,8 @@
 
 .stage-list-container {
   margin-left: 260px; /* Match sidebar width */
-  padding: 20px;
+  margin-bottom: 2rem; /* Moderate space below stages */
+  
   font-family: Arial, sans-serif;
   min-height: 100vh;
 }

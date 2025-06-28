@@ -1,9 +1,10 @@
 import { NavLink } from "react-router-dom";
 import './AdminSidebar.css';
 import { MdDashboard } from "react-icons/md";
-import { MdAddLocationAlt } from "react-icons/md";
+import { HiDocumentReport } from "react-icons/hi";
 import { MdAlignHorizontalLeft } from "react-icons/md";
 import { MdAnalytics } from "react-icons/md";
+import { MdAddChart } from "react-icons/md";
 const AdminSidebar = () => {
   return (
     <aside className="admin-sidebar">
@@ -15,7 +16,14 @@ const AdminSidebar = () => {
             isActive ? "nav-link active" : "nav-link"
           }
         >
-          <MdDashboard/> Dashboard
+          <MdDashboard size={20} style={{
+            background: 'rgba(56, 191, 248, 0.54)',
+            borderRadius: '8px',
+            padding: 4,
+            marginRight:'8px',
+            color: 'white',
+            boxShadow: '0 2px 8px rgba(102, 126, 234, 0.2)'
+         }}/> Dashboard
         </NavLink>
         <NavLink
           to="/admin/stages"
@@ -23,7 +31,14 @@ const AdminSidebar = () => {
             isActive ? "nav-link active" : "nav-link"
           }
         >
-         <MdAlignHorizontalLeft/> All Stages
+         <MdAlignHorizontalLeft size={20} style={{
+            background: 'rgba(56, 191, 248, 0.54)',
+            borderRadius: '8px',
+            padding: 4,
+            marginRight:'8px',
+            color: 'white',
+            boxShadow: '0 2px 8px rgba(102, 126, 234, 0.2)'
+         }}/> All Stages
         </NavLink>
         <NavLink
           to="/admin/stages/create"
@@ -31,7 +46,14 @@ const AdminSidebar = () => {
             isActive ? "nav-link active" : "nav-link"
           }
         >
-         <MdAddLocationAlt/> Add New Stage
+         <MdAddChart size={20} style={{
+            background: 'rgba(56, 191, 248, 0.54)',
+            borderRadius: '8px',
+            padding: 2,
+            color: 'white',
+            marginRight:'8px',
+            boxShadow: '0 2px 8px rgba(102, 126, 234, 0.2)'
+         }}/> Add Stage
         </NavLink>
         <NavLink
           to="/admin/analytics"
@@ -39,7 +61,29 @@ const AdminSidebar = () => {
             isActive ? "nav-link active" : "nav-link"
           }
         >
-        <MdAnalytics/>  Analytics
+        <MdAnalytics size={20} style={{
+            background: 'rgba(56, 191, 248, 0.54)',
+            borderRadius: '8px',
+            padding: 4,
+            color: 'white',
+            marginRight:'8px',
+            boxShadow: '0 2px 8px rgba(102, 126, 234, 0.2)'
+         }}/>  Analytics
+        </NavLink>
+        <NavLink
+          to="/admin/incident-reports"
+          className={({ isActive }) =>
+            isActive ? "nav-link active" : "nav-link"
+          }
+        >
+         <HiDocumentReport size={20} style={{
+            background: 'rgba(56, 191, 248, 0.54)',
+            borderRadius: '8px',
+            padding: 4,
+            color: 'white',
+            marginRight:'8px',
+            boxShadow: '0 2px 8px rgba(102, 126, 234, 0.2)'
+         }}/>Reports
         </NavLink>
       </nav>
     </aside>

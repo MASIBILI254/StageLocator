@@ -1,56 +1,41 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../Context/AuthContext';
-import ma3 from '../images/ma3.jpeg';
+import logo from '../images/ma3.jpeg';
 import './Navbar.css';
 
-function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+const Navbar = () => {
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
-    setIsOpen(false);
   };
 
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Search Stages', path: '/search' },
-  ];
-
   return (
-    <nav className="Navbar">
-      <div className="container">
-        <div className="Logo">
-          {/* Logo and Desktop Navigation */}
-          <div className="item">
-            <Link to="/" className="Home">
-              <img src={ma3} alt="" />
-              <span className="heading">StageLocator</span>
-            </Link>
-          </div>
-
-          {/* User Menu - Desktop */}
-          <div className="Menu">
-            {user ? (
-              <div className="user">
-                <span className="name">{user.username}</span>
-                <button onClick={handleLogout} className="butt">
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <Link to="/login" className="butt">
-                Login
-              </Link>
-            )}
-          </div>
-        </div>
+    <nav className="navbar">
+      <div className="navbar-logo">
+        <img src={logo} alt="StageLocator Logo" />
+        <Link to="/" className="navbar-brand" onClick={handleLogout}>StageLocator</Link>
       </div>
+
+      <ul className="navbar-links">
+        {user ? (
+          <li className="user-info">
+            <span className="username">Welcome, {user.username || user.name || 'User'}</span>
+            <button className="logout-button" onClick={handleLogout}>
+              Logout
+            </button>
+          </li>
+        ) : (
+          <li>
+            <Link to="/user">
+              <button className="login-button">Login</button>
+            </Link>
+          </li>
+        )}
+      </ul>
     </nav>
   );
-}
+};
 
 export default Navbar;

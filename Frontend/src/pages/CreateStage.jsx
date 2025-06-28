@@ -85,54 +85,60 @@ const CreateStage = () => {
     <div className="add-page">
       <h2 className="heading">Add New Stage</h2>
       <form onSubmit={handleSubmit} className="stage-form">
-        <div className="form-group">
-          <label>Stage Name</label>
-          <input
-            type="text"
-            name="name"
-            required
-            value={formData.name}
-            onChange={handleChange}
-          />
+        <div className="form-row">
+          <div className="form-group">
+            <label>Stage Name</label>
+            <input
+              type="text"
+              name="name"
+              required
+              value={formData.name}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Image Upload</label>
+            <ImageUpload onImageUpload={handleImageUpload} />
+          </div>
         </div>
 
-        <div className="form-group">
-          <label>Image Upload</label>
-          <ImageUpload onImageUpload={handleImageUpload} />
+        <div className="form-row">
+          <div className="form-group full-width">
+            <label>Description</label>
+            <textarea
+              name="decs"
+              rows="3"
+              value={formData.decs}
+              onChange={handleChange}
+            ></textarea>
+          </div>
         </div>
 
-        <div className="form-group full-width">
-          <label>Description</label>
-          <textarea
-            name="decs"
-            rows="3"
-            value={formData.decs}
-            onChange={handleChange}
-          ></textarea>
-        </div>
+        <div className="form-row">
+          <div className="form-group">
+            <label>Longitude</label>
+            <input
+              type="number"
+              step="any"
+              name="lng"
+              required
+              value={formData.location.coordinates[0]}
+              onChange={handleChange}
+            />
+          </div>
 
-        <div className="form-group">
-          <label>Longitude</label>
-          <input
-            type="number"
-            step="any"
-            name="lng"
-            required
-            value={formData.location.coordinates[0]}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Latitude</label>
-          <input
-            type="number"
-            step="any"
-            name="lat"
-            required
-            value={formData.location.coordinates[1]}
-            onChange={handleChange}
-          />
+          <div className="form-group">
+            <label>Latitude</label>
+            <input
+              type="number"
+              step="any"
+              name="lat"
+              required
+              value={formData.location.coordinates[1]}
+              onChange={handleChange}
+            />
+          </div>
         </div>
 
         <div className="form-group full-width">
