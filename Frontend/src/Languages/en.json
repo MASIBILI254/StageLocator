@@ -1,0 +1,37 @@
+{
+  "home": {
+    "welcome": "Find the nearest stage to your destination...",
+    "enterDestination": "Enter destination",
+    "search": "Search",
+    "destination": "Destination",
+    "Estimated fare": " Estimated Fare",
+    "duration": "Duration",
+    "getDirections": "Get Directions"
+  },
+   "transport": {
+    "yourLocation": "Your Location",
+    "loading": "Loading map...",
+    "availableStages": "Available Stages",
+    "noStages": "No stages available",
+    "selectStagePrompt": "Select a stage to see directions",
+    "routes": "Routes",
+    "destination": "Destination",
+    "distance": "Distance",
+    "duration": "Trip duration",
+    "minutes": "minutes",
+    "directionsTo": "Directions to {{stage}}",
+    "errorFetchingStages": "Failed to fetch stage data from backend",
+    "errorGettingLocation": "Unable to get your current location. Please enable location services.",
+    "geolocationNotSupported": "Geolocation is not supported by your browser",
+    "errorTrackingLocation": "Location tracking failed. Please check your device settings.",
+    "invalidCoordinates": "Selected stage doesn't have valid coordinates",
+    "errorGettingDirections": "Error getting directions"
+  },
+  "navbar": {
+    "brand": "StageLocator",
+    "welcome": "Welcome",
+    "logout": "Logout",
+    "login": "Login",
+    "defaultUser": "User"
+  }
+}

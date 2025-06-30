@@ -5,6 +5,8 @@ import { HiDocumentReport } from "react-icons/hi";
 import { MdAlignHorizontalLeft } from "react-icons/md";
 import { MdAnalytics } from "react-icons/md";
 import { MdAddChart } from "react-icons/md";
+import { MdStar } from "react-icons/md";
+
 const AdminSidebar = () => {
   return (
     <aside className="admin-sidebar">
@@ -84,6 +86,21 @@ const AdminSidebar = () => {
             marginRight:'8px',
             boxShadow: '0 2px 8px rgba(102, 126, 234, 0.2)'
          }}/>Reports
+        </NavLink>
+         <NavLink
+          to="/reviews"
+          className={({ isActive }) =>
+            isActive ? "nav-link active" : "nav-link"
+          }
+        >
+            <MdStar size={20} style={{
+            background: 'rgba(56, 191, 248, 0.54)',
+            borderRadius: '8px',
+            padding: 4,
+            color: 'white',
+            marginRight:'8px',
+            boxShadow: '0 2px 8px rgba(102, 126, 234, 0.2)'
+         }} /> reviews
         </NavLink>
       </nav>
     </aside>

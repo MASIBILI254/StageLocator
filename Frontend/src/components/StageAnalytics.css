@@ -24,3 +24,14 @@
 .analytics-section .MuiTableBody-root .MuiTableRow-root:hover {
   background-color: #f8f9fa;
 }
+
+@media (max-width: 600px) {
+  .analytics-section {
+    padding: 0.5rem;
+    border-radius: 4px;
+  }
+  .analytics-section h4 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+}

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../Context/AuthContext';
 import api from '../services/Api';
 import TransportMap from './Transportmap';
+import ReviewModal from './ReviewModal';
 import { CgMenuGridR } from "react-icons/cg";
 import { MdOutlineAccessAlarms } from "react-icons/md";
 import IncidentReportModal from './IncidentReportModal';
@@ -17,6 +18,8 @@ const UserSidebar = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [showIncidentModal, setShowIncidentModal] = useState(false);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [reviewStage, setReviewStage] = useState(null);
 
   const fetchLastStage = async () => {
     if (user) {
@@ -62,10 +65,30 @@ const UserSidebar = () => {
   const handleGetDirections = (destination) => {
     setSelectedDestination(destination);
     setShowMap(true);
+    if (lastStage && lastStage.routes && lastStage.routes.some(route => route.destination === destination)) {
+      setReviewStage(lastStage);
+    }
   };
 
   const closeMap = () => {
     setShowMap(false);
+  };
+
+  const handleMapClose = () => {
+    console.log('=== handleMapClose called from UserSidebar ===');
+    console.log('Map closed, reviewStage:', reviewStage);
+    if (reviewStage) {
+      console.log('Showing review modal for stage:', reviewStage.name);
+      setShowReviewModal(true);
+    } else {
+      console.log('No reviewStage set, not showing modal');
+    }
+  };
+
+  const closeReviewModal = () => {
+    console.log('Closing review modal');
+    setShowReviewModal(false);
+    setReviewStage(null);
   };
 
   return (
@@ -77,7 +100,7 @@ const UserSidebar = () => {
       minHeight: '100vh',
       marginLeft: 10,
   }}>
-        <Link to='/' style={{textDecoration:'none'}}>
+        <Link to='/home' style={{textDecoration:'none'}}>
         <h2 style={{
           fontSize: 20,
           marginBottom: 32,
@@ -174,8 +197,16 @@ const UserSidebar = () => {
         destination={selectedDestination}
         showMap={showMap}
         onClose={closeMap}
+        onMapClose={handleMapClose}
       />
       
+      {/* Review Modal */}
+      <ReviewModal
+        isOpen={showReviewModal}
+        onClose={closeReviewModal}
+        stageId={reviewStage?._id}
+        stageName={reviewStage?.name}
+      />
     </>
   );
 };

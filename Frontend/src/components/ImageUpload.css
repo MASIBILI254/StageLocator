@@ -120,4 +120,18 @@
 }
 .image-size {
   color: #888;
+}
+@media (max-width: 600px) {
+  .image-upload-container {
+    padding: 0.5rem;
+  }
+  .image-grid {
+    gap: 0.5rem;
+  }
+  .image-item {
+    width: 70px;
+  }
+  .image-item img {
+    height: 40px;
+  }
 } 

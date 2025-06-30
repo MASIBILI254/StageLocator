@@ -7,7 +7,7 @@ import api from '../services/Api';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW1hZDE5IiwiYSI6ImNtN2s0ZG56MDBmNHUybHF4eHJtOHVmNXAifQ.mOBEf8SbwkpMAhrz64vIvg';
 
-const TransportMap = ({ stageName, showMap, onClose }) => {
+const TransportMap = ({ stageName, showMap, onClose, onMapClose }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const userMarker = useRef(null);
@@ -353,12 +353,29 @@ const TransportMap = ({ stageName, showMap, onClose }) => {
     }
   };
 
+  const handleClose = () => {
+    console.log('=== TransportMap handleClose called ===');
+    console.log('onClose function exists:', !!onClose);
+    console.log('onMapClose function exists:', !!onMapClose);
+    
+    // Call the original onClose function
+    if (onClose) {
+      console.log('Calling onClose function');
+      onClose();
+    }
+    // Call the onMapClose function to trigger review modal
+    if (onMapClose) {
+      console.log('Calling onMapClose function');
+      onMapClose();
+    }
+  };
+
   if (!showMap) return null;
 
   return (
     <div className="map-modal">
       <div className="map-container">
-        <button className="close-button" onClick={onClose}>×</button>
+        <button className="close-button" onClick={handleClose}>×</button>
         {isLoading && <div className="loading">Loading map...</div>}
         {error && <div className="error">{error}</div>}
         

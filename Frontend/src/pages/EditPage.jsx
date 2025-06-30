@@ -111,7 +111,7 @@ const EditStage = () => {
     try {
       await api.put(`/stages/${id}`, payload);
       alert("Stage updated successfully!");
-      navigate("/admin");
+      navigate("/admin/stages");
     } catch {
       alert("Failed to update stage.");
     }

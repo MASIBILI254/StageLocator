@@ -1,73 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { getStageAnalytics } from '../services/stageService';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Typography,
-  Box,
-  CircularProgress,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Paper, Typography, Box, CircularProgress, Avatar, Card, CardContent,
+  Grid, Chip
 } from '@mui/material';
 import AdminSidebar from './AdminSidebar';
+import { getStageAnalytics } from '../services/stageService';
 import api from '../services/Api';
 
-const AdminReviewList = () => {
-  const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const res = await api.get('/reviews/all');
-        setReviews(res.data);
-      } catch (err) {
-        setError('Failed to load reviews');
-      }
-      setLoading(false);
-    };
-    fetchReviews();
-  }, []);
-
-  if (loading) return <div>Loading reviews...</div>;
-  if (error) return <div style={{ color: 'red' }}>{error}</div>;
-
-  return (
-    <div style={{ marginTop: 32 }}>
-      <h3>All User Reviews</h3>
-      {reviews.length === 0 ? (
-        <div>No reviews found.</div>
-      ) : (
-        <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: 16,background:'whitesmoke', borderRadius:'10px' }}>
-          <thead>
-            <tr style={{ background: '#f3f4f6' }}>
-              <th style={{ border: '1px solid #e5e7eb', padding: 8 }}>User</th>
-              <th style={{ border: '1px solid #e5e7eb', padding: 8 }}>Stage</th>
-              <th style={{ border: '1px solid #e5e7eb', padding: 8 }}>Rating</th>
-              <th style={{ border: '1px solid #e5e7eb', padding: 8 }}>Comment</th>
-              <th style={{ border: '1px solid #e5e7eb', padding: 8 }}>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {reviews.map(r => (
-              <tr key={r._id}>
-                <td style={{ border: '1px solid #e5e7eb', padding: 8 }}>{r.user?.username || 'User'}</td>
-                <td style={{ border: '1px solid #e5e7eb', padding: 8 }}>{r.stage?.name || 'Stage'}</td>
-                <td style={{ border: '1px solid #e5e7eb', padding: 8 }}>{r.rating}</td>
-                <td style={{ border: '1px solid #e5e7eb', padding: 8 }}>{r.comment}</td>
-                <td style={{ border: '1px solid #e5e7eb', padding: 8 }}>{new Date(r.createdAt).toLocaleString()}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
-  );
-};
 
 const StageAnalytics = () => {
   const [analytics, setAnalytics] = useState([]);
@@ -85,7 +26,6 @@ const StageAnalytics = () => {
         setLoading(false);
       }
     };
-
     fetchAnalytics();
   }, []);
 
@@ -110,32 +50,50 @@ const StageAnalytics = () => {
 
     return (
       <Box>
-        <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', mb: 3 }}>
+        <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', mb: 3, color: 'white' }}>
           Stage Analytics
         </Typography>
 
-        <TableContainer component={Paper} sx={{ borderRadius: 3, boxShadow: 2 }}>
-          <Table>
-            <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
-              <TableRow>
-                <TableCell sx={{ fontWeight: 'bold' }}>Stage Name</TableCell>
-                <TableCell align="right" sx={{ fontWeight: 'bold' }}>Total Searches</TableCell>
-                <TableCell align="right" sx={{ fontWeight: 'bold' }}>Last Searched</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {analytics.map((stage) => (
-                <TableRow key={stage.stageId} hover>
-                  <TableCell>{stage.stageName}</TableCell>
-                  <TableCell align="right">{stage.totalSearches}</TableCell>
-                  <TableCell align="right">
-                    {new Date(stage.lastSearched).toLocaleString()}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <Grid container spacing={3}>
+          {analytics.map((stage) => (
+            <Grid item xs={12} md={4} sm={6} key={stage.stageId}>
+              <Card sx={{ borderRadius: 3, p: 2, background: '#f9fafb',marginRight:12 }}>
+                <Box display="flex" alignItems="center" gap={2}>
+                  <Box>
+                    <Typography variant="h6" fontWeight="bold">{stage.stageName}</Typography>
+                    <Typography variant="body2" color="textSecondary">{stage.desc}</Typography>
+                    <Typography variant="body2" color="#2d3748">
+                      Last searched: {new Date(stage.lastSearched).toLocaleString()}
+                    </Typography>
+                    <Chip label={`Searches: ${stage.searchCount}`} sx={{ mt: 1, background:"#2d3748",color:"whitesmoke"}} />
+                  </Box>
+                </Box>
+
+                <Box mt={2}>
+                  <Typography variant="subtitle2" fontWeight="bold">Routes</Typography>
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Destination</TableCell>
+                        <TableCell>Fare (KES)</TableCell>
+                        <TableCell>Duration</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {stage.routes?.map((route) => (
+                        <TableRow key={route._id}>
+                          <TableCell>{route.destination}</TableCell>
+                          <TableCell>{route.fare}</TableCell>
+                          <TableCell>{route.duration}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Box>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
       </Box>
     );
   };
@@ -150,12 +108,13 @@ const StageAnalytics = () => {
           p: 4,
           ml: { sm: '180px' },
           backgroundColor: '#2d3748',
-          borderRadius:'10px',
+          borderRadius: '10px',
           minHeight: '100vh',
+          color: 'white'
         }}
       >
         {renderContent()}
-        <AdminReviewList />
+    
       </Box>
     </Box>
   );

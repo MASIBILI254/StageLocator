@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './Featured.css';
 import api from '../services/Api';
 import TransportMap from '../components/Transportmap';
+import ReviewModal from '../components/ReviewModal';
 import MpesaPayment from '../components/Mpesa';
 
 function Featured() {
@@ -18,6 +19,8 @@ function Featured() {
     destination: '',
     companyName: ''
   });
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [reviewStage, setReviewStage] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,6 +60,7 @@ function Featured() {
     // Find the stage name for this destination
     const stage = stages.find(s => s.routes.some(r => r.destination === destination));
     if (stage) {
+      setReviewStage(stage);
       try {
         await api.post('/stages/increment-searchcount', { stageName: stage.name });
       } catch (err) {
@@ -69,7 +73,24 @@ function Featured() {
     setShowMap(false);
   };
   
-  // Handle payment initiation
+  const handleMapClose = () => {
+    console.log('=== handleMapClose called from Featured ===');
+    console.log('Map closed, reviewStage:', reviewStage);
+    // Show review modal after map is closed
+    if (reviewStage) {
+      console.log('Showing review modal for stage:', reviewStage.name);
+      setShowReviewModal(true);
+    } else {
+      console.log('No reviewStage set, not showing modal');
+    }
+  };
+
+  const closeReviewModal = () => {
+    console.log('Closing review modal');
+    setShowReviewModal(false);
+    setReviewStage(null);
+  };
+
   const handlePayment = (result) => {
     setPaymentDetails({
       amount: result.fare,
@@ -79,7 +100,6 @@ function Featured() {
     setShowPayment(true);
   };
   
-  // Close payment modal
   const closePayment = () => {
     setShowPayment(false);
   };
@@ -88,6 +108,7 @@ function Featured() {
     <div>
       <div className="featured-container">
         <h2 className="text">Featured Stages</h2>
+        
         
         {stages.length === 0 ? (
           <p className="featured-heading">No stages available at the moment.</p>
@@ -111,19 +132,13 @@ function Featured() {
                         {stage.routes.map((route, index) => (
                           <div key={index} className='Card'>
                             <p>Destination: {route.destination}</p>
-                            <p>Fare: {route.fare}</p>
+                            <p> Estimated Fare: {route.fare}</p>
                             <p>Duration:{route.duration}</p>
                             <button 
                               className="btn" 
                               onClick={() => handleGetDirections(route.destination)}
                             >
                               Get Directions
-                            </button>
-                            <button 
-                              className="btn-pay"
-                              onClick={() => handlePayment(route)}
-                            >
-                              PAY
                             </button>
                           </div>
                         ))}
@@ -138,7 +153,8 @@ function Featured() {
       </div>
       <TransportMap destination={selectedDestination}
         showMap={showMap}
-        onClose={closeMap}/>
+        onClose={closeMap}
+        onMapClose={handleMapClose}/>
       {/* M-Pesa Payment Component */}
       <MpesaPayment
         isOpen={showPayment}
@@ -146,6 +162,13 @@ function Featured() {
         amount={paymentDetails.amount}
         destination={paymentDetails.destination}
         companyName={paymentDetails.companyName}
+      />
+      {/* Review Modal */}
+      <ReviewModal
+        isOpen={showReviewModal}
+        onClose={closeReviewModal}
+        stageId={reviewStage?._id}
+        stageName={reviewStage?.name}
       />
     </div>
   );

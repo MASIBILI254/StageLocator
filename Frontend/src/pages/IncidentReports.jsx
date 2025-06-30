@@ -55,8 +55,9 @@ function IncidentReports() {
 
   return (
     <>
+    <AdminSidebar />
       <div className="stage-list-container">
-        <AdminSidebar />
+        
         <h2 className="stage-list-title">Incident Reports</h2>
         <table className="stage-list-table">
           <thead>

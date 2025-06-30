@@ -12,13 +12,23 @@ const ReviewModal = ({ isOpen, onClose, stageId, stageName }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
+
   if (!isOpen) return null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
-      localStorage.setItem('pendingReview', JSON.stringify({ stageId, stageName, rating, comment }));
-      navigate('/user');
+      // Store the review data in localStorage
+      const pendingReviewData = { stageId, stageName, rating, comment };
+      console.log('User not logged in, storing pending review:', pendingReviewData);
+      localStorage.setItem('pendingReview', JSON.stringify(pendingReviewData));
+      
+      setSuccess('Please log in to submit your review. You will be redirected to the login page.');
+      setTimeout(() => {
+        onClose();
+        navigate('/user');
+      }, 2000);
+      
       return;
     }
     
@@ -85,7 +95,7 @@ const ReviewModal = ({ isOpen, onClose, stageId, stageName }) => {
             color: '#1f2937',
             marginTop: 0
           }}>
-            How was your experience with {stageName}?
+            How was your experience using this application?
           </h3>
           
           <form onSubmit={handleSubmit}>
@@ -132,7 +142,7 @@ const ReviewModal = ({ isOpen, onClose, stageId, stageName }) => {
               <textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                placeholder="Share your experience with this stage..."
+                placeholder="Share your experience about this application..."
                 required
                 rows={4}
                 style={{ 
