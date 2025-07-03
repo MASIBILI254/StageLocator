@@ -185,7 +185,7 @@ const UserSidebar = () => {
               borderRadius: '50%',
               marginBottom: 0,
             }}/>
-            Report
+            ReportIncident
           </div>
         </Link>
         

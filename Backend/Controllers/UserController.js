@@ -45,6 +45,7 @@ export const register = async (req, res) => {
         return res.status(500).json({ message: "Error registering the user" });
     }
 };
+
 export const login = async (req, res) => {
     const { username, password } = req.body;
   
@@ -105,4 +106,36 @@ export const setLastSearchedStage = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+};
+
+// Request password reset (no email, just check if user exists)
+export const requestPasswordReset = async (req, res) => {
+    const { email } = req.body;
+    if (!email) {
+        return res.status(400).json({ message: 'Email is required' });
+    }
+    const user = await User.findOne({ email });
+    // Always return success to avoid user enumeration
+    return res.status(200).json({ message: 'If an account with that email exists, you can reset your password.' });
+};
+
+// Reset password (no token, just email and new password)
+export const resetPassword = async (req, res) => {
+    const { email, newPassword, confirmPassword } = req.body;
+    if (!email || !newPassword || !confirmPassword) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
+    if (newPassword !== confirmPassword) {
+        return res.status(400).json({ message: 'Passwords do not match' });
+    }
+    const user = await User.findOne({ email });
+    if (!user) {
+        // Always return success to avoid user enumeration
+        return res.status(200).json({ message: 'Password reset successful' });
+    }
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(newPassword, salt);
+    user.password = hash;
+    await user.save();
+    return res.status(200).json({ message: 'Password reset successful' });
 };

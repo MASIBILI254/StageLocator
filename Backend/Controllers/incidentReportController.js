@@ -4,7 +4,7 @@ import IncidentReport from '../module/incidentReportModel.js';
 export const submitIncident = async (req, res) => {
   try {
     const { stageId, type, description, photoUrl, contactInfo } = req.body;
-    const userId = req.user ? req.user.id : null; // If using auth middleware
+    const userId = req.user ? req.user.id : null; 
     const report = new IncidentReport({
       userId,
       stageId,
@@ -41,7 +41,7 @@ export const getUserIncidents = async (req, res) => {
   }
 };
 
-// Update incident status/response (admin)
+// Update incident status(admin)
 export const updateIncident = async (req, res) => {
   try {
     const { id } = req.params;
@@ -55,5 +55,15 @@ export const updateIncident = async (req, res) => {
     res.json({ message: 'Incident report updated', report });
   } catch (err) {
     res.status(500).json({ message: 'Failed to update incident report', error: err.message });
+  }
+};
+
+// Get total count of incident reports
+export const getIncidentReportCount = async (req, res) => {
+  try {
+    const count = await IncidentReport.countDocuments();
+    res.json({ count });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to get incident report count' });
   }
 }; 

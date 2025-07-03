@@ -1,5 +1,5 @@
 import express from 'express';
-import { addReview, getReviewsForStage, getAverageRating, getAllReviews } from '../Controllers/reviewController.js';
+import { addReview, getReviewsForStage, getAverageRating, getAllReviews, getReviewCount } from '../Controllers/reviewController.js';
 import { verifyToken } from '../middleware/authMiddleware.js';
 const router = express.Router();
 
@@ -11,5 +11,8 @@ router.get('/stage/:stageId', getReviewsForStage);
 router.get('/stage/:stageId/average', getAverageRating);
 // Get all reviews
 router.get('/all', getAllReviews);
+
+// Get total count of reviews
+router.get('/count', getReviewCount);
 
 export default router; 

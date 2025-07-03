@@ -1,7 +1,7 @@
 .register-container {
   max-width: 420px;
   margin: 1rem auto 1rem auto;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(83, 80, 80, 0.966);
   backdrop-filter: blur(12px);
   border-radius: 12px;
 padding-top: 0;
@@ -13,11 +13,11 @@ padding-top: 0;
 .register-container h2 {
   font-size: 1.75rem;
   font-weight: bold;
-  color: #facc15;
-  margin-bottom: 1.5rem;
+  color: #f5f3ee;
+  margin-top: 1.5rem;
 }
 
-.error-message {
+.error-message1 {
   color: #f87171;
   margin-bottom: 1rem;
   font-size: 0.95rem;
@@ -39,7 +39,7 @@ form {
   font-size: 0.95rem;
   margin-bottom: 0rem;
   margin-left: 1rem;
-  color: #e2e8f0;
+  color: #fefcfc;
 }
 
 .input-field,
@@ -66,7 +66,8 @@ form {
   color: white;
   border: none;
   width: 180px;
-  margin-left: 1.5rem;
+  margin-top: 2.5rem;
+  margin-left: 3.5rem;
   padding: 0.75rem;
   border-radius: 8px;
   font-size: 1rem;

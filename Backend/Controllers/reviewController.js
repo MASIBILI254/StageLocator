@@ -53,4 +53,14 @@ export const getAllReviews = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
+};
+
+// Get total count of reviews
+export const getReviewCount = async (req, res) => {
+  try {
+    const count = await Review.countDocuments();
+    res.json({ count });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to get review count' });
+  }
 }; 
