@@ -3,8 +3,15 @@ import StageSearchLog from "../module/StageSearchLog.js";
 // create a new stage
 export const createstage = async (req,res) => {
     try {
+        // Debug: log the incoming request body
+        console.log('CreateStage req.body:', req.body);
+        // Validate required fields
+        if (!req.body.boardingPoint || typeof req.body.boardingPoint !== 'string') {
+            return res.status(400).json({ message: 'Boarding point is required and must be a string.' });
+        }
         const stage = new Stage(req.body);
         await stage.save();
+        console .log('Stage created successfully:', stage);
         res.status(201).json(stage);
         
     } catch (error) {

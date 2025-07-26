@@ -9,12 +9,13 @@ const CreateStage = () => {
     name: "",
     img: "",
     decs: "",
+    boardingPoint: "",
     location: {
       type: "Point",
       coordinates: ["", ""],
     },
     routes: [
-      { destination: "", fare: "", duration: "" },
+      { number: "", destination: "", fare: "", duration: "" },
     ],
   });
 
@@ -45,7 +46,7 @@ const CreateStage = () => {
   const addRoute = () => {
     setFormData({
       ...formData,
-      routes: [...formData.routes, { destination: "", fare: "", duration: "" }],
+      routes: [...formData.routes, { number: "", destination: "", fare: "", duration: "" }],
     });
   };
 
@@ -60,7 +61,9 @@ const CreateStage = () => {
           parseFloat(formData.location.coordinates[1]),
         ],
       },
+      boardingPoint: formData.boardingPoint,
       routes: formData.routes.map((r) => ({
+        number: r.number,
         destination: r.destination,
         fare: parseFloat(r.fare),
         duration: r.duration,
@@ -93,6 +96,17 @@ const CreateStage = () => {
               name="name"
               required
               value={formData.name}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Boarding Point</label>
+            <input
+              type="text"
+              name="boardingPoint"
+              required
+              value={formData.boardingPoint}
               onChange={handleChange}
             />
           </div>
@@ -145,6 +159,13 @@ const CreateStage = () => {
           <h3 className="subheading">Routes</h3>
           {formData.routes.map((route, index) => (
             <div key={index} className="route-group">
+              <input
+                type="number"
+                name="number"
+                placeholder="Route Number"
+                value={route.number}
+                onChange={(e) => handleRouteChange(index, e)}
+              />
               <input
                 type="text"
                 name="destination"

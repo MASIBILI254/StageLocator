@@ -7,7 +7,9 @@ const stageSchema = new mongoose.Schema({
     type: { type: String, enum: ["Point"], default: "Point" },
     coordinates: { type: [Number], required: true }
   },
+  boardingPoint: { type: String, required: true },
   routes: [{
+    number: Number,
     destination: String,
     fare: Number,
     duration: String

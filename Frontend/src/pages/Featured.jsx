@@ -124,16 +124,18 @@ function Featured() {
                     <img src={stage.img} alt={stage.name} style={{width: '400px', height: '400px', borderRadius: '12px', objectFit: 'cover'}} />
                   )}
                   <h2 style={{ margin: 0 }}>{stage.name || 'Unnamed Stage'}</h2>
-                 
+                  {stage.boardingPoint && (
+                    <p style={{ margin: 0, fontWeight: 500, color: '#FFD700' }}>Boarding Point: {stage.boardingPoint}</p>
+                  )}
                   {stage.routes && stage.routes.length > 0 && (
                     <div className="routes">
-                      <h2>Routes</h2>
                       <div className="flex flex-wrap gap-2">
                         {stage.routes.map((route, index) => (
                           <div key={index} className='Card'>
+                            <h3>Route Number: {route.number}</h3>
                             <p>Destination: {route.destination}</p>
-                            <p> Estimated Fare: {route.fare}</p>
-                            <p>Duration:{route.duration}</p>
+                            <p>Estimated Fare: {route.fare}</p>
+                            <p>Duration: {route.duration}</p>
                             <button 
                               className="btn" 
                               onClick={() => handleGetDirections(route.destination)}

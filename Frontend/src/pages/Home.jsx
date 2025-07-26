@@ -66,6 +66,7 @@ const Home = () => {
           acc.push({
             companyName: company.name,
             img: company.img,
+            boardingPoint: company.boardingPoint,
             ...route
           });
         });
@@ -161,6 +162,9 @@ const Home = () => {
                   <div className="card" key={index}>
                     <div className="flex-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                       <h3 style={{ margin: 0 }}>{result.companyName}</h3>
+                      {result.boardingPoint && (
+                    <p style={{ margin: 0, fontWeight: 500, color: '#FFD700' }}>Boarding Point: {result.boardingPoint}</p>
+                  )}
                       {result.img && (
                         <img
                           src={result.img}
@@ -171,7 +175,11 @@ const Home = () => {
                     </div>
                     <div className="center-container">
                       <div className="glass">
+                         {result.number !== undefined && (
+                          <p>Route Number: {result.number}</p>
+                        )}
                         <p>{t('home.destination')}: {result.destination}</p>
+                       
                         <p>{t('home.Estimated fare')}: {result.fare}</p>
                         <p>{t('home.duration')}: {result.duration}</p>
                         <button

@@ -19,6 +19,7 @@ const TransportMap = ({ stageName, showMap, onClose, onMapClose }) => {
   const [stages, setStages] = useState([]);
   const [selectedStage, setSelectedStage] = useState(null);
   const [isTracking, setIsTracking] = useState(false);
+  const [directions, setDirections] = useState(null); 
 
   useEffect(() => {
     if (!showMap) return;
@@ -71,7 +72,19 @@ const TransportMap = ({ stageName, showMap, onClose, onMapClose }) => {
         watchId.current = null;
       }
     };
-  }, [showMap, stageName]);
+  }, [showMap]);
+
+  // New effect: set selectedStage whenever stageName or stages changes
+  useEffect(() => {
+    if (stageName && stages && stages.length > 0) {
+      const matchedStage = stages.find(
+        stage => stage.name.toLowerCase() === stageName.toLowerCase()
+      );
+      if (matchedStage) {
+        setSelectedStage(matchedStage);
+      }
+    }
+  }, [stageName, stages]);
 
   // Start or stop location tracking
   const toggleTracking = () => {
@@ -230,6 +243,7 @@ const TransportMap = ({ stageName, showMap, onClose, onMapClose }) => {
   const getDirectionsToStage = async (stage) => {
     if (!stage.location || !stage.location.coordinates || stage.location.coordinates.length !== 2) {
       setError("Selected stage doesn't have valid coordinates");
+      setDirections(null);
       return;
     }
 
@@ -314,26 +328,26 @@ const TransportMap = ({ stageName, showMap, onClose, onMapClose }) => {
           padding: 100
         });
         
-        // Display turn-by-turn directions
-        const instructions = document.getElementById('instructions');
-        if (instructions) {
-          let tripInstructions = '';
-          route.legs[0].steps.forEach((step, index) => {
-            tripInstructions += `<li>${index + 1}. ${step.maneuver.instruction}</li>`;
-          });
-          
-          const distance = (route.distance / 1000).toFixed(1); // Convert to km
-          instructions.innerHTML = `
-            <h3>Directions to ${stage.name}</h3>
-            <p>Distance: ${distance} km</p>
-            <p>Trip duration: ${Math.floor(route.duration / 60)} min</p>
-            <p>${tripInstructions}<p/>
-          `;
-        }
+        // Display turn-by-turn directions using React state
+        const steps = route.legs[0].steps.map((step, index) => (
+          <li key={index}>{index + 1}. {step.maneuver.instruction}</li>
+        ));
+        const distance = (route.distance / 1000).toFixed(1); // km
+        const duration = Math.floor(route.duration / 60); // min
+        setDirections(
+          <div>
+            <h3>Directions to {stage.boardingPoint}</h3>
+            <p>Distance: {distance} km</p>
+            <p>Trip duration: {duration} min</p>
+            <ul>{steps}</ul>
+          </div>
+        );
+      } else {
+        setDirections(<p>No route found.</p>);
       }
     } catch (error) {
-      console.error('Error getting directions:', error);
       setError(`Error getting directions: ${error.message}`);
+      setDirections(null);
     }
   };
 
@@ -378,14 +392,8 @@ const TransportMap = ({ stageName, showMap, onClose, onMapClose }) => {
         <button className="close-button" onClick={handleClose}>×</button>
         {isLoading && <div className="loading">Loading map...</div>}
         {error && <div className="error">{error}</div>}
-        
-        <div className="map-controls">
-          
-          
-        </div>
-        
+        <div className="map-controls"></div>
         <div ref={mapContainer} className="mapbox-container" />
-        
         <div className="map-sidebar">
           <div className="stage-list">
             <h3>Available Stages</h3>
@@ -400,12 +408,12 @@ const TransportMap = ({ stageName, showMap, onClose, onMapClose }) => {
                 </button>
               ))
             ) : (
-              <p>No stages available</p>
+              <p>No stages found.</p>
             )}
           </div>
-          
           <div id="instructions" className="directions-instructions">
             {!selectedStage && <p>Select a stage to see directions</p>}
+            {directions && selectedStage && directions}
           </div>
         </div>
       </div>
