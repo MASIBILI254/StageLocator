@@ -224,10 +224,10 @@ html, body {
 .glass {
   padding: 1.5rem;
   backdrop-filter: blur(10px);
+  
 }
 
 .glass p {
-  margin: 0.8rem 0;
   color: #ffffff;
   font-size: 1rem;
   font-weight: 400;
