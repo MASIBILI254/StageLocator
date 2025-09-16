@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './Mpesa.css';
+//import './Mpesa.css';
 
 const MpesaPayment = ({ isOpen, onClose, amount, destination, companyName }) => {
   const [phoneNumber, setPhoneNumber] = useState('');

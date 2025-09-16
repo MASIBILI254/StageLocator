@@ -149,3 +149,18 @@
   .close-button:hover {
     background-color: #2a9539;
   }
+  
+  @media (max-width: 600px) {
+    .mpesa-modal {
+      width: 98%;
+      max-width: 98vw;
+      padding: 10px;
+    }
+    .mpesa-header h2 {
+      font-size: 1.1rem;
+    }
+    .pay-button, .close-button, .retry-button {
+      font-size: 13px;
+      padding: 8px 10px;
+    }
+  }

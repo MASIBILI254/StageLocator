@@ -1,0 +1,39 @@
+{
+  "home": {
+    "welcome": "Tafuta kituo cha karibu kwa unakoenda...",
+    "enterDestination": "Ingiza mahali unakoenda",
+    "search": "Tafuta",
+    "destination": "Mahali",
+    " Estimated fare": "Nauli",
+    "duration": "Muda",
+    "getDirections": "Pata Maelekezo"
+  },
+   
+  "transport": {
+    "yourLocation": "Mahali ulipo",
+    "loading": "Ramani inapakizwa...",
+    "availableStages": "Vituo Vinavyopatikana",
+    "noStages": "Hakuna vituo vilivyopatikana",
+    "selectStagePrompt": "Chagua kituo ili kuona maelekezo",
+    "routes": "Njia",
+    "destination": "Kituo",
+    "distance": "Umbali",
+    "duration": "Muda wa safari",
+    "minutes": "dakika",
+    "directionsTo": "Maelekezo hadi {{stage}}",
+    "errorFetchingStages": "Imeshindikana kupakua data za vituo kutoka seva",
+    "errorGettingLocation": "Imeshindikana kupata mahali ulipo. Tafadhali wezesha huduma za mahali.",
+    "geolocationNotSupported": "Kivinjari chako hakiungi mkono huduma za mahali",
+    "errorTrackingLocation": "Ufuatiliaji wa mahali umeshindikana. Tafadhali angalia mipangilio ya kifaa chako.",
+    "invalidCoordinates": "Kituo kilichochaguliwa hakina uratibu sahihi",
+    "errorGettingDirections": "Hitilafu katika kupata maelekezo"
+  },
+   "navbar": {
+    "brand": "StageLocator",
+    "welcome": "Karibu",
+    "logout": "Toka",
+    "login": "Ingia",
+    "defaultUser": "Mtumiaji"
+  }
+}
+

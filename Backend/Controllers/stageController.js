@@ -3,8 +3,15 @@ import StageSearchLog from "../module/StageSearchLog.js";
 // create a new stage
 export const createstage = async (req,res) => {
     try {
+        // Debug: log the incoming request body
+        console.log('CreateStage req.body:', req.body);
+        // Validate required fields
+        if (!req.body.boardingPoint || typeof req.body.boardingPoint !== 'string') {
+            return res.status(400).json({ message: 'Boarding point is required and must be a string.' });
+        }
         const stage = new Stage(req.body);
         await stage.save();
+        console .log('Stage created successfully:', stage);
         res.status(201).json(stage);
         
     } catch (error) {
@@ -105,7 +112,7 @@ export const deleteStage = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-};  
+};
     
 // get all stages
 export const getStages = async (req, res) => {
@@ -119,7 +126,11 @@ export const getStages = async (req, res) => {
     
     export const getStageAnalytics = async (req, res) => {
   try {
-    const stats = await StageSearchLog.aggregate([
+    // Get all stages with their complete data
+    const allStages = await Stage.find();
+    
+    // Get search statistics for stages that have been searched
+    const searchStats = await StageSearchLog.aggregate([
       {
         $group: {
           _id: "$stageId",
@@ -127,31 +138,53 @@ export const getStages = async (req, res) => {
           lastSearched: { $max: "$searchedAt" },
         },
       },
-      {
-        $sort: { totalSearches: -1 },
-      },
-      {
-        $lookup: {
-          from: "stages",
-          localField: "_id",
-          foreignField: "_id",
-          as: "stageDetails",
-        },
-      },
-      {
-        $unwind: "$stageDetails",
-      },
-      {
-        $project: {
-          _id: 0,
-          stageId: "$_id",
-          stageName: "$stageDetails.name",
-          totalSearches: 1,
-          lastSearched: 1,
-        },
-      },
-    ]);  
-    res.status(200).json(stats)
+    ]);
+
+    // Create a map of search statistics
+    const searchStatsMap = {};
+    searchStats.forEach(stat => {
+      searchStatsMap[stat._id.toString()] = {
+        totalSearches: stat.totalSearches,
+        lastSearched: stat.lastSearched
+      };
+    });
+
+    // Combine stage data with search statistics
+    const analytics = allStages.map(stage => {
+      const searchData = searchStatsMap[stage._id.toString()] || {
+        totalSearches: 0,
+        lastSearched: null
+      };
+
+      return {
+        stageId: stage._id,
+        stageName: stage.name,
+        stageImage: stage.img,
+        stageDescription: stage.decs,
+        routes: stage.routes || [],
+        totalRoutes: stage.routes ? stage.routes.length : 0,
+        searchCount: stage.searchCount || 0,
+        totalSearches: searchData.totalSearches,
+        lastSearched: searchData.lastSearched,
+        averageFare: stage.routes && stage.routes.length > 0 ? 
+          stage.routes.reduce((sum, route) => sum + (route.fare || 0), 0) / stage.routes.length : 0,
+        minFare: stage.routes && stage.routes.length > 0 ? 
+          Math.min(...stage.routes.map(route => route.fare || 0)) : 0,
+        maxFare: stage.routes && stage.routes.length > 0 ? 
+          Math.max(...stage.routes.map(route => route.fare || 0)) : 0
+      };
+    });
+
+    // Sort by total searches (descending)
+    analytics.sort((a, b) => b.totalSearches - a.totalSearches);
+
+    console.log('Analytics data prepared:', {
+      totalStages: analytics.length,
+      stagesWithRoutes: analytics.filter(s => s.totalRoutes > 0).length,
+      totalRoutes: analytics.reduce((sum, s) => sum + s.totalRoutes, 0)
+    });
+
+    res.status(200).json(analytics);
   } catch (error) {
     console.error('Analytics error:', error);
     res.status(500).json({ message: error.message });

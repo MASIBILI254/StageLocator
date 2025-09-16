@@ -1,9 +1,11 @@
 .image-upload-container {
-  margin: 1rem 0;
+  margin: 0.5rem 0;
   padding: 1rem;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   background: #fafbfc;
+
+  
 }
 
 .upload-section {
@@ -118,4 +120,18 @@
 }
 .image-size {
   color: #888;
+}
+@media (max-width: 600px) {
+  .image-upload-container {
+    padding: 0.5rem;
+  }
+  .image-grid {
+    gap: 0.5rem;
+  }
+  .image-item {
+    width: 70px;
+  }
+  .image-item img {
+    height: 40px;
+  }
 } 

@@ -1,56 +1,46 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../Context/AuthContext';
-import ma3 from '../images/ma3.jpeg';
+import logo from '../images/ma3.jpeg';
 import './Navbar.css';
-
-function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+import { useTranslation } from 'react-i18next';
+import  LanguageSwitcher from '../pages/LanguageSwitcher';
+const Navbar = () => {
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const { t} = useTranslation();
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
-    setIsOpen(false);
   };
 
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Search Stages', path: '/search' },
-  ];
 
   return (
-    <nav className="Navbar">
-      <div className="container">
-        <div className="Logo">
-          {/* Logo and Desktop Navigation */}
-          <div className="item">
-            <Link to="/" className="Home">
-              <img src={ma3} alt="" />
-              <span className="heading">StageLocator</span>
-            </Link>
-          </div>
-
-          {/* User Menu - Desktop */}
-          <div className="Menu">
-            {user ? (
-              <div className="user">
-                <span className="name">{user.username}</span>
-                <button onClick={handleLogout} className="butt">
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <Link to="/login" className="butt">
-                Login
-              </Link>
-            )}
-          </div>
-        </div>
+    <nav className="navbar">
+      <div className="navbar-logo">
+        <img src={logo} alt="StageLocator Logo" />
+        <Link to="/home" className="navbar-brand">{t('navbar.brand')}</Link>
       </div>
+
+      <ul className="navbar-links">
+        {user ? (
+          <li className="user-info">
+            <span className="username">{t('navbar.welcome')}, {user.username || user.name || t('navbar.defaultUser')}</span>
+            <button className="logout-button" onClick={handleLogout}>
+              {t('navbar.logout')}
+            </button>
+          </li>
+        ) : (
+          <li>
+            <Link to="/user">
+              <button className="login-button">{t('navbar.login')}</button>
+            </Link>
+          </li>
+        )}
+         <LanguageSwitcher/>
+      </ul>
+       
     </nav>
   );
-}
+};
 
 export default Navbar;

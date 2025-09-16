@@ -9,12 +9,13 @@ const CreateStage = () => {
     name: "",
     img: "",
     decs: "",
+    boardingPoint: "",
     location: {
       type: "Point",
       coordinates: ["", ""],
     },
     routes: [
-      { destination: "", fare: "", duration: "" },
+      { number: "", destination: "", fare: "", duration: "" },
     ],
   });
 
@@ -45,7 +46,7 @@ const CreateStage = () => {
   const addRoute = () => {
     setFormData({
       ...formData,
-      routes: [...formData.routes, { destination: "", fare: "", duration: "" }],
+      routes: [...formData.routes, { number: "", destination: "", fare: "", duration: "" }],
     });
   };
 
@@ -60,7 +61,9 @@ const CreateStage = () => {
           parseFloat(formData.location.coordinates[1]),
         ],
       },
+      boardingPoint: formData.boardingPoint,
       routes: formData.routes.map((r) => ({
+        number: r.number,
         destination: r.destination,
         fare: parseFloat(r.fare),
         duration: r.duration,
@@ -85,60 +88,84 @@ const CreateStage = () => {
     <div className="add-page">
       <h2 className="heading">Add New Stage</h2>
       <form onSubmit={handleSubmit} className="stage-form">
-        <div className="form-group">
-          <label>Stage Name</label>
-          <input
-            type="text"
-            name="name"
-            required
-            value={formData.name}
-            onChange={handleChange}
-          />
+        <div className="form-row">
+          <div className="form-group">
+            <label>Stage Name</label>
+            <input
+              type="text"
+              name="name"
+              required
+              value={formData.name}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Boarding Point</label>
+            <input
+              type="text"
+              name="boardingPoint"
+              required
+              value={formData.boardingPoint}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Image Upload</label>
+            <ImageUpload onImageUpload={handleImageUpload} />
+          </div>
         </div>
 
-        <div className="form-group">
-          <label>Image Upload</label>
-          <ImageUpload onImageUpload={handleImageUpload} />
+        <div className="form-row">
+          <div className="form-group full-width">
+            <label>Description</label>
+            <textarea
+              name="decs"
+              rows="3"
+              value={formData.decs}
+              onChange={handleChange}
+            ></textarea>
+          </div>
         </div>
 
-        <div className="form-group full-width">
-          <label>Description</label>
-          <textarea
-            name="decs"
-            rows="3"
-            value={formData.decs}
-            onChange={handleChange}
-          ></textarea>
-        </div>
+        <div className="form-row">
+          <div className="form-group">
+            <label>Longitude</label>
+            <input
+              type="number"
+              step="any"
+              name="lng"
+              required
+              value={formData.location.coordinates[0]}
+              onChange={handleChange}
+            />
+          </div>
 
-        <div className="form-group">
-          <label>Longitude</label>
-          <input
-            type="number"
-            step="any"
-            name="lng"
-            required
-            value={formData.location.coordinates[0]}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Latitude</label>
-          <input
-            type="number"
-            step="any"
-            name="lat"
-            required
-            value={formData.location.coordinates[1]}
-            onChange={handleChange}
-          />
+          <div className="form-group">
+            <label>Latitude</label>
+            <input
+              type="number"
+              step="any"
+              name="lat"
+              required
+              value={formData.location.coordinates[1]}
+              onChange={handleChange}
+            />
+          </div>
         </div>
 
         <div className="form-group full-width">
           <h3 className="subheading">Routes</h3>
           {formData.routes.map((route, index) => (
             <div key={index} className="route-group">
+              <input
+                type="number"
+                name="number"
+                placeholder="Route Number"
+                value={route.number}
+                onChange={(e) => handleRouteChange(index, e)}
+              />
               <input
                 type="text"
                 name="destination"

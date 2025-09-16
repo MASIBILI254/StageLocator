@@ -6,9 +6,7 @@
   background-color: #1f2937; /* dark gray */
   color: #ffffff;
   position: fixed;
-  top: 0;
-  left: 0;
-  padding: 20px;
+  margin-top: 0.5rem;
   box-sizing: border-box;
 }
 
@@ -38,4 +36,23 @@
 .nav-link.active {
   font-weight: 600;
   color: #60a5fa;
+}
+
+@media (max-width: 600px) {
+  .admin-sidebar {
+    width: 60px;
+    min-width: 60px;
+    padding: 0.5rem 0.2rem;
+  }
+  .admin-title {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .admin-nav {
+    gap: 8px;
+  }
+  .nav-link {
+    font-size: 12px;
+    padding: 4px 0;
+  }
 }
