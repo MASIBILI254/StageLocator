@@ -5,46 +5,46 @@ import Stage from '../module/stageModule.js';
 
 
 export const register = async (req, res) => {
-    const { username, password, email, role } = req.body;
+  const { username, password, email, role } = req.body;
 
-    try {
-        // Validate all required fields
-        if (!username || !password || !email) {
-            return res.status(400).json({ message: 'Username, email, and password are required' });
-        }
-
-        // Check if email already exists
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return res.status(409).json({ message: 'Email is already registered' });
-        }
-
-        const userRole = role && ['user', 'admin'].includes(role) ? role : 'user';
-        const salt = bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(password, salt);
-
-        const newUser = new User({
-            username,
-            email,
-            password: hash,
-            role: userRole,
-        });
-
-        await newUser.save();
-        res.status(200).json("User has been created");
-    } catch (error) {
-        console.log(error);
-        // Handle duplicate key error (in case of race condition)
-        if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
-            return res.status(409).json({ message: 'Email is already registered' });
-        }
-        // Handle validation errors
-        if (error.name === 'ValidationError') {
-            return res.status(400).json({ message: error.message });
-        }
-        return res.status(500).json({ message: "Error registering the user" });
+  try {
+    if (!username || !password || !email) {
+      return res.status(400).json({ message: 'Username, email, and password are required' });
     }
+
+    if (typeof password !== "string") {
+      return res.status(400).json({ message: "Password must be a string" });
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({ message: 'Email is already registered' });
+    }
+
+    const userRole = role && ['user', 'admin'].includes(role) ? role : 'user';
+    const hash = bcrypt.hashSync(password, 10); // you don’t even need genSaltSync separately
+
+    const newUser = new User({
+      username,
+      email,
+      password: hash,
+      role: userRole,
+    });
+
+    await newUser.save();
+    res.status(200).json("User has been created");
+  } catch (error) {
+    console.log(error);
+    if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
+      return res.status(409).json({ message: 'Email is already registered' });
+    }
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ message: error.message });
+    }
+    return res.status(500).json({ message: "Error registering the user" });
+  }
 };
+
 
 export const login = async (req, res) => {
     const { username, password } = req.body;
