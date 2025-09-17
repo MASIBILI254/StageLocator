@@ -1,5 +1,6 @@
 import express from 'express';
-import { register, login, getLastSearchedStage, setLastSearchedStage, requestPasswordReset, resetPassword } from '../Controllers/userController.js';
+import { register, login, getLastSearchedStage, setLastSearchedStage, 
+    requestPasswordReset, resetPassword } from '../Controllers/UserController.js';
 import { verifyToken } from '../middleware/authMiddleware.js';
 const router = express.Router();
 
